@@ -1,0 +1,611 @@
+# Flashcards: one fact per card. front/back accept inline Markdown.
+
+# platform
+- topic: platform
+  front: "Where does the control plane run?"
+  back: "Always in the Databricks account. Classic compute runs in your cloud account; serverless compute in a Databricks-managed account."
+- topic: platform
+  front: "How many Unity Catalog metastores per region?"
+  back: "One, attached to every workspace in that region. Grants live in the metastore, so they apply in all those workspaces."
+- topic: platform
+  front: "What does serverless compute not support?"
+  back: "R, the RDD API, init scripts, the Spark UI (use the query profile), most Spark settings, and endless streaming triggers."
+- topic: platform
+  front: "Most expensive compute, never for scheduled production jobs?"
+  back: "All-purpose compute."
+- topic: platform
+  front: "Workload uses R or the RDD API"
+  back: "Classic compute in **dedicated** access mode (standard access mode supports neither)."
+- topic: platform
+  front: "Library precedence"
+  back: "Notebook-scoped (`%pip`) > compute-scoped (cluster or task libraries) > built into the runtime."
+- topic: platform
+  front: "Job breaks after a library release, code unchanged"
+  back: "Unpinned dependency. Pin versions with `==` (for example in a requirements file)."
+- topic: platform
+  front: "Dependencies for serverless Python script, wheel or dbt tasks"
+  back: "An `environments` entry in the job, referenced by the task's `environment_key`."
+- topic: platform
+  front: "Serverless task must run at most once"
+  back: "Untick *Enable serverless auto-optimization* in the task's retry policy (it may add retries)."
+- topic: platform
+  front: "Cheaper serverless job, start-up delay acceptable"
+  back: "Turn off *Performance optimized* (standard mode)."
+- topic: platform
+  front: "Cluster fails with `INIT_SCRIPT_FAILURE`"
+  back: "Read the init script logs in the cluster log delivery path (`<log path>/<cluster id>/init_scripts/`)."
+- topic: platform
+  front: "Current names of DLT, Workflows, Asset Bundles, Repos, Delta Sharing"
+  back: "Lakeflow Spark Declarative Pipelines, Lakeflow Jobs, Declarative Automation Bundles, Git folders, OpenSharing."
+
+# delta
+- topic: delta
+  front: "What gives Delta Lake ACID transactions?"
+  back: "The `_delta_log` transaction log: each commit is atomic and readers see only committed versions."
+- topic: delta
+  front: "Replace data and schema, keep history and grants"
+  back: "`CREATE OR REPLACE TABLE ... AS SELECT` (or overwrite with `overwriteSchema`)."
+- topic: delta
+  front: "`INSERT OVERWRITE` with a changed schema"
+  back: "Fails: overwrite keeps the existing schema."
+- topic: delta
+  front: "`mergeSchema` vs `overwriteSchema`"
+  back: "`mergeSchema` adds new columns (append or overwrite). `overwriteSchema` replaces the whole schema (overwrite only)."
+- topic: delta
+  front: "MERGE fails with `DELTA_MULTIPLE_SOURCE_ROW_MATCHING_TARGET_ROW_IN_MERGE`"
+  back: "Several source rows per key. Keep the latest row per key before merging."
+- topic: delta
+  front: "Delete target rows missing from the source in a MERGE"
+  back: "`WHEN NOT MATCHED BY SOURCE THEN DELETE`."
+- topic: delta
+  front: "Does `RESTORE` delete later versions?"
+  back: "No. It writes a new commit with the old state; history keeps everything."
+- topic: delta
+  front: "Default retention: log and deleted files"
+  back: "`delta.logRetentionDuration` 30 days (history). `delta.deletedFileRetentionDuration` 7 days (what `VACUUM` may delete)."
+- topic: delta
+  front: "What does `VACUUM` do to time travel?"
+  back: "Deletes unreferenced files older than the retention, so older versions can no longer be read or restored."
+- topic: delta
+  front: "Rename or drop a column"
+  back: "Enable column mapping: `'delta.columnMapping.mode' = 'name'`. Metadata only; can break streams."
+- topic: delta
+  front: "Make a table insert-only"
+  back: "`delta.appendOnly = true`."
+- topic: delta
+  front: "Cheap writable copy of a big table for tests"
+  back: "`SHALLOW CLONE` (metadata only). `DEEP CLONE` copies the data."
+- topic: delta
+  front: "Overwrite only one day of a table atomically"
+  back: "`replaceWhere` (SQL: `INSERT INTO t REPLACE WHERE ...`)."
+
+# layout
+- topic: layout
+  front: "Many small files make reads slow"
+  back: "`OPTIMIZE` (plus optimized writes, auto compaction or predictive optimization)."
+- topic: layout
+  front: "Changed liquid clustering keys; old data still badly laid out"
+  back: "`OPTIMIZE t FULL`."
+- topic: layout
+  front: "`CLUSTER BY AUTO` requires"
+  back: "A Unity Catalog managed table with predictive optimization."
+- topic: layout
+  front: "What predictive optimization runs"
+  back: "`OPTIMIZE`, `VACUUM` and `ANALYZE`, on Unity Catalog managed tables only. Never Z-order."
+- topic: layout
+  front: "Liquid clustering combined with partitioning or Z-order?"
+  back: "Not allowed. Liquid clustering replaces both; up to 4 keys."
+- topic: layout
+  front: "Filter column with millions of distinct values"
+  back: "Liquid clustering key. Never a partition column."
+- topic: layout
+  front: "Frequent single-row updates rewrite whole files"
+  back: "Deletion vectors."
+- topic: layout
+  front: "Rows inserted after the last `OPTIMIZE` on a clustered table"
+  back: "Stay unclustered until the next `OPTIMIZE` (manual or predictive optimization)."
+
+# ingest-files
+- topic: ingest-files
+  front: "Millions of files, schema that changes"
+  back: "Auto Loader (`cloudFiles`) with schema evolution."
+- topic: ingest-files
+  front: "`COPY INTO` run twice with no new files"
+  back: "Loads nothing: already loaded files are skipped (idempotent), even if modified."
+- topic: ingest-files
+  front: "Reload a corrected file with the same name in `COPY INTO`"
+  back: "Delete its old rows, then `FILES = ('name')` with `COPY_OPTIONS ('force' = 'true')`."
+- topic: ingest-files
+  front: "`FORMAT_OPTIONS` vs `COPY_OPTIONS` `mergeSchema`"
+  back: "FORMAT: schema read from the files. COPY: lets the target table gain columns."
+- topic: ingest-files
+  front: "Auto Loader modes when a new column appears"
+  back: "`addNewColumns`: fail, then evolve on restart. `rescue`: to `_rescued_data`, never evolves. `failOnNewColumns`: fail until fixed. `none`: ignore."
+- topic: ingest-files
+  front: "Default Auto Loader schema evolution mode"
+  back: "Without a schema: `addNewColumns`. With a schema: `none`."
+- topic: ingest-files
+  front: "`cloudFiles.schemaLocation` vs `checkpointLocation`"
+  back: "Schema location: inferred schema and its history. Checkpoint: which files were processed."
+- topic: ingest-files
+  front: "Auto Loader types for JSON and CSV"
+  back: "STRING by default (use `inferColumnTypes` or `schemaHints`). `read_files` infers types."
+- topic: ingest-files
+  front: "Auto Loader on millions of files: listing is slow"
+  back: "File notification with managed file events (`cloudFiles.useManagedFileEvents`); same checkpoint."
+- topic: ingest-files
+  front: "Upload page limits"
+  back: "Up to 10 files, under 2 GB in total, no archives. Bigger: upload to a volume first."
+- topic: ingest-files
+  front: "Source file path of each row"
+  back: "`_metadata.file_path`."
+- topic: ingest-files
+  front: "Limit micro-batches by volume"
+  back: "`cloudFiles.maxBytesPerTrigger` (by count: `maxFilesPerTrigger`)."
+
+# ingest-sources
+- topic: ingest-sources
+  front: "Salesforce or Workday without API code"
+  back: "Lakeflow Connect managed connector."
+- topic: ingest-sources
+  front: "Database connector components"
+  back: "An always-on ingestion gateway (classic compute, stages snapshots and change logs) + a serverless ingestion pipeline."
+- topic: ingest-sources
+  front: "Use connector credentials without seeing them"
+  back: "A Unity Catalog connection plus `USE CONNECTION`."
+- topic: ingest-sources
+  front: "JDBC `lowerBound` / `upperBound`"
+  back: "Only set the partition stride; they do not filter rows."
+- topic: ingest-sources
+  front: "ODBC driver installed by an init script"
+  back: "Needs classic compute; serverless does not run init scripts."
+- topic: ingest-sources
+  front: "Full refresh of a Kafka bronze table"
+  back: "Loses data Kafka no longer holds. Protect with `pipelines.reset.allowed = false`."
+- topic: ingest-sources
+  front: "Deleting a managed ingestion pipeline"
+  back: "Deletes the tables it created."
+
+# semi-structured
+- topic: semi-structured
+  front: "Extract a field from a JSON string column"
+  back: "`raw:customer.address.city`. Dot notation is for STRUCT columns."
+- topic: semi-structured
+  front: "Best storage for JSON whose shape changes"
+  back: "VARIANT (`parse_json`)."
+- topic: semi-structured
+  front: "`[*]` wildcard on VARIANT"
+  back: "Not supported: use `LATERAL variant_explode(v:items)`. VARIANT paths are case sensitive."
+- topic: semi-structured
+  front: "`GROUP BY` on a VARIANT path"
+  back: "Cast first: `v:country::STRING`."
+- topic: semi-structured
+  front: "`explode` vs `explode_outer`"
+  back: "`explode` drops NULL or empty arrays; `explode_outer` keeps those rows with NULL."
+- topic: semi-structured
+  front: "JSON string to STRUCT"
+  back: "`from_json(col, schema)` (schema required; `schema_of_json` can derive it)."
+- topic: semi-structured
+  front: "Ingest PDFs and images incrementally"
+  back: "Auto Loader with `cloudFiles.format = binaryFile` (path, modificationTime, length, content)."
+
+# sharing
+- topic: sharing
+  front: "Share with a partner on Databricks with Unity Catalog"
+  back: "D2D sharing using their metastore sharing identifier `cloud:region:metastore-id`."
+- topic: sharing
+  front: "Share with a partner without Databricks"
+  back: "Open sharing (token or OIDC federation)."
+- topic: sharing
+  front: "Query PostgreSQL without copying data"
+  back: "Lakehouse Federation: connection + foreign catalog + grants."
+- topic: sharing
+  front: "Two companies must match customers without seeing each other's data"
+  back: "A clean room with approved notebooks."
+- topic: sharing
+  front: "Cross-cloud sharing egress costs"
+  back: "Depend on where the data is stored, not the sharing mode. Host data where egress is free or replicate."
+- topic: sharing
+  front: "Recipients must time travel and stream a shared table"
+  back: "`ALTER SHARE s ADD TABLE t WITH HISTORY`."
+
+# transform
+- topic: transform
+  front: "PySpark `union` vs SQL `UNION`"
+  back: "`union` keeps duplicates and matches by position. SQL `UNION` removes duplicates."
+- topic: transform
+  front: "Stack DataFrames with different column order or missing columns"
+  back: "`unionByName(other, allowMissingColumns=True)`."
+- topic: transform
+  front: "`x = NULL`"
+  back: "Never true. Use `IS NULL`, `isNull()`, or null-safe `<=>`."
+- topic: transform
+  front: "`left_semi` vs `left_anti`"
+  back: "Left rows that have / do not have a match. Both return left columns only."
+- topic: transform
+  front: "Latest record per key"
+  back: "`row_number()` over a window partitioned by key, ordered by time desc (plus tiebreaker); keep 1. SQL: `QUALIFY`."
+- topic: transform
+  front: "`count(col)` vs `count(*)`"
+  back: "`count(col)`, `sum`, `avg` ignore NULLs; `count(*)` counts every row."
+- topic: transform
+  front: "`fillna(0)`"
+  back: "Fills only numeric columns. Use a dict for several types."
+- topic: transform
+  front: "Invalid cast with ANSI mode on"
+  back: "Fails. Use `try_cast`, `try_to_date`, `try_element_at`."
+- topic: transform
+  front: "Date pattern letters `MM` and `mm`"
+  back: "`MM` = month, `mm` = minute."
+- topic: transform
+  front: "Array indexing"
+  back: "`[i]` and `getItem` are 0-based; `element_at` is 1-based."
+- topic: transform
+  front: "`row_number` vs `rank` vs `dense_rank`"
+  back: "1,2,3,4 / 1,1,3,4 / 1,1,2,3."
+- topic: transform
+  front: "Running total per customer"
+  back: "Window partitioned by customer, ordered by time, `rowsBetween(Window.unboundedPreceding, Window.currentRow)`."
+- topic: transform
+  front: "Cheap distinct count on huge data"
+  back: "`approx_count_distinct` (HyperLogLog)."
+- topic: transform
+  front: "`describe()` vs `summary()`"
+  back: "`summary()` adds the 25%, 50% and 75% percentiles."
+
+# udf-ai
+- topic: udf-ai
+  front: "UDF speed order"
+  back: "Built-in > SQL UDF > pandas UDF > plain Python UDF."
+- topic: udf-ai
+  front: "Why pandas UDFs are faster"
+  back: "Arrow batches and vectorised pandas code instead of one call per row."
+- topic: udf-ai
+  front: "Reusable, governed function for all workspaces"
+  back: "Unity Catalog function (`CREATE FUNCTION cat.sch.f ...`) with `EXECUTE` grants."
+- topic: udf-ai
+  front: "Load a model once in a pandas UDF"
+  back: "Iterator of Series to Iterator of Series."
+- topic: udf-ai
+  front: "Classify text into fixed labels in SQL"
+  back: "`ai_classify(text, ARRAY('a', 'b'))`. Any served model: `ai_query`."
+- topic: udf-ai
+  front: "`ai_query` should not fail the whole batch"
+  back: "`failOnError => false` returns result and error per row."
+
+# pipelines
+- topic: pipelines
+  front: "Streaming table vs materialized view"
+  back: "Streaming table: incremental, each row once (append). Materialized view: keeps a query result current (aggregates, joins, latest state)."
+- topic: pipelines
+  front: "Expectation without `ON VIOLATION`"
+  back: "Keeps the row and records the violation (warn)."
+- topic: pipelines
+  front: "`DROP ROW` vs `FAIL UPDATE`"
+  back: "DROP removes invalid rows and continues. FAIL stops the update and rolls back."
+- topic: pipelines
+  front: "Keep rejected rows and the reason"
+  back: "A quarantine table with the opposite, NULL-safe condition."
+- topic: pipelines
+  front: "Python expectation decorators"
+  back: "`@dp.expect`, `@dp.expect_or_drop`, `@dp.expect_or_fail` (and `expect_all...` to group)."
+- topic: pipelines
+  front: "Rule enforced for every writer of a table"
+  back: "Delta `CHECK` / `NOT NULL` constraint (expectations only work inside the pipeline)."
+- topic: pipelines
+  front: "Materialized view refresh runs as"
+  back: "The owner. Make a service principal the owner."
+- topic: pipelines
+  front: "Changing a streaming table's query"
+  back: "Applies to new rows only, until a full refresh."
+- topic: pipelines
+  front: "Add a source to a streaming table without a full refresh"
+  back: "Another append flow targeting the same table."
+
+# streaming
+- topic: streaming
+  front: "`trigger(availableNow=True)`"
+  back: "Process everything available in rate-limited batches, then stop."
+- topic: streaming
+  front: "No trigger on serverless"
+  back: "Fails (`INFINITE_STREAMING_TRIGGER_NOT_SUPPORTED`). Use `availableNow`."
+- topic: streaming
+  front: "Output modes"
+  back: "append (new final rows), complete (whole result), update (changed rows; not supported by the Delta sink)."
+- topic: streaming
+  front: "Streaming upsert into Delta"
+  back: "`foreachBatch` + `MERGE`."
+- topic: streaming
+  front: "Watermark"
+  back: "Lateness threshold: lets Spark finalise windows and drop old state; later events are ignored."
+- topic: streaming
+  front: "Duplicates minutes apart vs days apart"
+  back: "`dropDuplicatesWithinWatermark` vs insert-only `MERGE` in `foreachBatch`."
+- topic: streaming
+  front: "Idempotent appends in `foreachBatch`"
+  back: "Delta write options `txnAppId` + `txnVersion` (= batch_id)."
+- topic: streaming
+  front: "Delta stream source with updates and deletes"
+  back: "Fails on change commits. `skipChangeCommits` ignores them; Change Data Feed processes them."
+
+# cdc
+- topic: cdc
+  front: "AUTO CDC default SCD type"
+  back: "Type 1. Add `STORED AS SCD TYPE 2` for history (`__START_AT`, `__END_AT`)."
+- topic: cdc
+  front: "Out-of-order CDC events"
+  back: "`SEQUENCE BY` the event's logical order."
+- topic: cdc
+  front: "Only some columns should create SCD2 versions"
+  back: "`TRACK HISTORY ON * EXCEPT (...)`."
+- topic: cdc
+  front: "Source only gives full snapshots"
+  back: "`AUTO CDC FROM SNAPSHOT`."
+- topic: cdc
+  front: "Read row-level changes of a Delta table"
+  back: "Change Data Feed: `table_changes()` or `readChangeFeed`; `_change_type` = insert, update_preimage, update_postimage, delete."
+- topic: cdc
+  front: "Is Change Data Feed retroactive?"
+  back: "No. It records changes from the version where it was enabled."
+- topic: cdc
+  front: "Full refresh of an SCD type 2 table"
+  back: "Loses the history the source no longer holds."
+
+# modeling
+- topic: modeling
+  front: "Bronze, silver, gold"
+  back: "Raw as received / clean, deduplicated, conformed / business-ready aggregates and models."
+- topic: modeling
+  front: "Keep years of raw events cheaply when the source keeps 7 days"
+  back: "Land them in bronze Delta tables."
+- topic: modeling
+  front: "Fact vs dimension"
+  back: "Fact: measures + foreign keys, grows fast. Dimension: descriptive attributes, changes slowly."
+- topic: modeling
+  front: "Each past sale shows the address valid at the time"
+  back: "SCD type 2 dimension with surrogate keys."
+- topic: modeling
+  front: "Metric view vs materialized view"
+  back: "Metric view: governed measure definitions computed at any grain (`MEASURE()`). MV: precomputed results at a fixed grain."
+- topic: modeling
+  front: "Users read a view but not its tables"
+  back: "Grant `SELECT` on the view; Unity Catalog uses the view owner's privileges on the sources."
+
+# jobs
+- topic: jobs
+  front: "Cleanup task that always runs"
+  back: "Run if `ALL_DONE`."
+- topic: jobs
+  front: "Alert only when something failed"
+  back: "Run if `AT_LEAST_ONE_FAILED`."
+- topic: jobs
+  front: "Skip the transform when no new data arrived"
+  back: "Task value with the row count + If/else condition (`> 0`). Run if reacts to outcomes, not data."
+- topic: jobs
+  front: "If/else `==` and `!=`"
+  back: "Compare strings (`0` ≠ `0.0`). `<`, `>`, `<=`, `>=` compare numbers."
+- topic: jobs
+  front: "Pass a value between tasks"
+  back: "`dbutils.jobs.taskValues.set/get`, or `{{tasks.<task>.values.<key>}}`."
+- topic: jobs
+  front: "Job parameter vs task parameter with the same key"
+  back: "The job parameter wins."
+- topic: jobs
+  front: "Same notebook for each item of a list"
+  back: "For each task (`{{input}}`, concurrency up to 100)."
+- topic: jobs
+  front: "Quartz cron for 06:30 daily"
+  back: "`0 30 6 * * ?` (seconds first), with a time zone."
+- topic: jobs
+  front: "File arrival trigger and overwritten files"
+  back: "Only new files trigger a run."
+- topic: jobs
+  front: "Table update trigger never fires"
+  back: "The run-as identity lacks `SELECT` on the table."
+- topic: jobs
+  front: "Continuous jobs"
+  back: "Always one run active; no task dependencies or retry policies; restarts with exponential backoff."
+- topic: jobs
+  front: "Timeout vs duration warning"
+  back: "Timeout kills the attempt (Timed Out). Warning only notifies."
+- topic: jobs
+  front: "Rerun only what failed"
+  back: "Repair run (can override parameters). Appending tasks may duplicate."
+- topic: jobs
+  front: "Job with a pipeline task: concurrent runs"
+  back: "At most 1."
+- topic: jobs
+  front: "Concurrency limit reached, queueing off"
+  back: "The new run is Skipped."
+- topic: jobs
+  front: "Make a notebook task fail"
+  back: "Raise an exception. `dbutils.notebook.exit()` ends successfully."
+
+# cicd
+- topic: cicd
+  front: "Bundle lifecycle"
+  back: "`init` → `validate` → `plan` → `deploy -t <target>` → `run` → `destroy`."
+- topic: cicd
+  front: "When are bundle variables resolved?"
+  back: "At deploy. Per-run values: job parameters (`bundle run --params`)."
+- topic: cicd
+  front: "Bundle variable precedence"
+  back: "`--var` > `BUNDLE_VAR_x` > overrides file > target > default."
+- topic: cicd
+  front: "`mode: development`"
+  back: "`[dev user]` prefix, schedules and triggers paused, concurrent runs allowed."
+- topic: cicd
+  front: "`mode: production`"
+  back: "Checks the Git branch (`git.branch`), expects `run_as` and a shared root path."
+- topic: cicd
+  front: "Adopt a job created in the UI"
+  back: "`bundle generate job --existing-job-id <id>` + `bundle deployment bind` (else a duplicate is created)."
+- topic: cicd
+  front: "Resource removed from bundle YAML"
+  back: "Deleted on the next deploy (protect with `lifecycle.prevent_destroy`)."
+- topic: cicd
+  front: "CI/CD authentication"
+  back: "Service principal with OAuth M2M or, better, OIDC workload identity federation."
+- topic: cicd
+  front: "Where is the pull request opened?"
+  back: "In the Git provider, not in Databricks."
+- topic: cicd
+  front: "Branch, pull and push in a Git folder need"
+  back: "CAN MANAGE. One Git folder per person."
+- topic: cicd
+  front: "Destroy a bundle in CI"
+  back: "`databricks bundle destroy -t test --auto-approve`."
+
+# testing
+- topic: testing
+  front: "Compare two DataFrames in a unit test"
+  back: "`pyspark.testing.assertDataFrameEqual` (ignores row order by default)."
+- topic: testing
+  front: "Assert a schema"
+  back: "`pyspark.testing.assertSchemaEqual`."
+- topic: testing
+  front: "Make transformations testable"
+  back: "Pure functions DataFrame → DataFrame, I/O at the edges, chained with `DataFrame.transform`."
+- topic: testing
+  front: "Integration test of a deployed job"
+  back: "Deploy the bundle to a test target, run the job on test data, raise on failed checks."
+- topic: testing
+  front: "Tests vs expectations"
+  back: "Tests check code before deployment; expectations check data at runtime."
+
+# monitoring
+- topic: monitoring
+  front: "Job runs older than about 60 days"
+  back: "`system.lakeflow.job_run_timeline` and related tables."
+- topic: monitoring
+  front: "Matrix view"
+  back: "Bar height = run duration; cells = task statuses."
+- topic: monitoring
+  front: "Slower run, extra time in *Waiting for resources*"
+  back: "Compute acquisition: pools, serverless, or fewer separate jobs. Not a code problem."
+- topic: monitoring
+  front: "*Succeeded with failures*"
+  back: "Only non-leaf tasks failed; the final state comes from leaf tasks."
+- topic: monitoring
+  front: "*Upstream failed*"
+  back: "Walk up the graph to the first failed task."
+- topic: monitoring
+  front: "Who accessed what"
+  back: "`system.access.audit`."
+- topic: monitoring
+  front: "Cost per SKU or job"
+  back: "`system.billing.usage` (`usage_quantity`) joined with `system.billing.list_prices`."
+- topic: monitoring
+  front: "Expectation pass and fail counts"
+  back: "Pipeline event log, `flow_progress` events, `details.flow_progress.data_quality.expectations`."
+- topic: monitoring
+  front: "Alert on two conditions"
+  back: "Compute one value in the query (`CASE WHEN a AND b THEN 1 ELSE 0 END`) and alert on it."
+- topic: monitoring
+  front: "Freshness and volume checks across a schema"
+  back: "Anomaly detection (data quality monitoring)."
+
+# performance
+- topic: performance
+  front: "One task much slower than the median"
+  back: "Skew. AQE skew join (joins only) or salting. More workers do not help."
+- topic: performance
+  front: "Aggregation skew with AQE on"
+  back: "AQE does not split aggregations: salt the key, aggregate twice."
+- topic: performance
+  front: "Spill to disk"
+  back: "Partitions too big for memory: more shuffle partitions (or auto), bigger nodes, fewer columns."
+- topic: performance
+  front: "Driver out of memory"
+  back: "`collect()`, `toPandas()`, large broadcasts. Do not bring data to the driver; bigger driver."
+- topic: performance
+  front: "`spark.default.parallelism`"
+  back: "RDDs only. DataFrame shuffles use `spark.sql.shuffle.partitions` (or auto)."
+- topic: performance
+  front: "Auto broadcast threshold"
+  back: "`spark.sql.autoBroadcastJoinThreshold` = 10 MB by default; -1 disables; hints override."
+- topic: performance
+  front: "No Spark UI on serverless"
+  back: "Use the query profile."
+- topic: performance
+  front: "`coalesce` vs `repartition`"
+  back: "`coalesce` reduces partitions without a full shuffle; `repartition` shuffles."
+- topic: performance
+  front: "Disk cache"
+  back: "Copies of remote files on workers' local SSDs; speeds repeated reads; detects changes automatically."
+- topic: performance
+  front: "High CPU time vs task time"
+  back: "CPU-bound: more or faster cores. Low CPU time: tasks are waiting."
+
+# governance
+- topic: governance
+  front: "Read a table"
+  back: "`USE CATALOG` + `USE SCHEMA` + `SELECT`."
+- topic: governance
+  front: "`DENY` in Unity Catalog"
+  back: "Does not exist. Not granted = denied."
+- topic: governance
+  front: "`REVOKE` on a table when the grant was on the schema"
+  back: "No effect: revoke where it was granted."
+- topic: governance
+  front: "Grant inheritance"
+  back: "From catalog and schema to all current and future objects. Metastore privileges do not inherit."
+- topic: governance
+  front: "`DROP TABLE` managed vs external"
+  back: "Managed: data deleted (`UNDROP` for 7 days). External: metadata only."
+- topic: governance
+  front: "External to managed in place"
+  back: "`ALTER TABLE t SET MANAGED` (keeps name, history, grants)."
+- topic: governance
+  front: "Metadata without data access"
+  back: "`BROWSE`."
+- topic: governance
+  front: "Administer grants without data access"
+  back: "`MANAGE`. `ALL PRIVILEGES` does not include `MANAGE`."
+- topic: governance
+  front: "Volume file access"
+  back: "`READ VOLUME` / `WRITE VOLUME` (external locations: `READ FILES` / `WRITE FILES`)."
+- topic: governance
+  front: "Use a function or mask"
+  back: "`EXECUTE`."
+- topic: governance
+  front: "Grant to whom?"
+  back: "Account groups and service principals, not individuals or workspace-local groups."
+- topic: governance
+  front: "Catalog only reachable from the production workspace"
+  back: "Workspace-catalog binding."
+
+# privacy
+- topic: privacy
+  front: "Only one group sees a column's real values"
+  back: "Column mask with `is_account_group_member`."
+- topic: privacy
+  front: "Each team sees only its rows"
+  back: "Row filter: `ALTER TABLE t SET ROW FILTER f ON (col)`."
+- topic: privacy
+  front: "One central rule for PII columns in all current and future tables"
+  back: "ABAC policy with governed tags (`CREATE POLICY ... MATCH COLUMNS has_tag_value(...)`)."
+- topic: privacy
+  front: "Do column tags inherit from the table?"
+  back: "No. `MATCH COLUMNS` only sees tags set on columns."
+- topic: privacy
+  front: "Do ABAC policies grant access?"
+  back: "No. They only change what users see in tables they can already read."
+- topic: privacy
+  front: "Dropped the mask function first"
+  back: "The table becomes unreadable. Drop the mask or filter before the function."
+- topic: privacy
+  front: "Reading masked tables on dedicated compute"
+  back: "Databricks Runtime 15.4 LTS or later with serverless enabled (or a SQL warehouse, or standard access mode)."
+- topic: privacy
+  front: "Reversible for a few, opaque for others"
+  back: "Tokenization (mapping table under strict access)."
+- topic: privacy
+  front: "Hashing PII safely"
+  back: "Salted hash (salt in a secret scope), overwriting the original column."
+- topic: privacy
+  front: "Quasi-identifiers (birth date, postcode)"
+  back: "Generalize (year, age band, district) or suppress."
+- topic: privacy
+  front: "GDPR erasure on Delta"
+  back: "`DELETE` in every layer + `REORG TABLE ... APPLY (PURGE)` + `VACUUM`; mind time travel and change feed files."

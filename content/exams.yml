@@ -1,0 +1,370 @@
+# Exam outlines. Objectives are paraphrased from the official exam guides;
+# always check the current guide before booking or sitting an exam.
+# Each objective lists the topic pages (content/topics/<id>.md) that cover it.
+# per_mock = questions drawn from the section for one full mock (sums to the exam length).
+
+A:
+  name: Databricks Certified Data Engineer Associate
+  short: Associate
+  version: Exam guide, August 2026
+  guide_url: https://www.databricks.com/sites/default/files/2026-10/Databricks-Certified-Data-Engineer-Associate-Exam-Guide-August-2026.pdf
+  page_url: https://www.databricks.com/learn/certification/data-engineer-associate
+  questions: 45
+  minutes: 90
+  sprint_minutes: 70
+  description: >-
+    Tests whether you can build and run basic data engineering work on Databricks:
+    ingest data, transform it with SQL and PySpark, orchestrate it with Lakeflow Jobs,
+    deploy it with bundles, and govern it with Unity Catalog.
+  details:
+    - [Scored questions, "45 multiple choice, plus up to 10 unscored items that are not marked"]
+    - [Time, "90 minutes (the time for unscored items is included)"]
+    - [Fee, "USD 200 plus tax"]
+    - [Delivery, "Online proctored or at a test centre"]
+    - [Languages, "English, Japanese, Portuguese (Brazil), Korean"]
+    - [Test aids, "None"]
+    - [Prerequisites, "None; related training is recommended"]
+    - [Recommended experience, "About 6 months of hands-on Databricks work"]
+    - [Validity, "2 years"]
+    - [Recertification, "Every 2 years, with the renewal exam or the current full exam"]
+  sections:
+    - id: 1
+      name: Databricks Intelligence Platform
+      weight: 6
+      per_mock: 3
+      objectives:
+        - id: A1.1
+          text: Explain the core platform components (lakehouse architecture, control and compute planes, Delta Lake, Unity Catalog).
+          topics: [platform, delta, governance]
+        - id: A1.2
+          text: Compare compute options (serverless, classic all-purpose and job clusters, SQL warehouses, pipeline compute), their limits and cost model, and pick one for a workload.
+          topics: [platform]
+    - id: 2
+      name: Data Ingestion and Loading
+      weight: 21
+      per_mock: 9
+      objectives:
+        - id: A2.1
+          text: Apply batch, streaming and incremental ingestion patterns, including local file uploads and Lakeflow Connect standard and managed connectors.
+          topics: [ingest-files, ingest-sources, streaming]
+        - id: A2.2
+          text: Load files from cloud object storage into Unity Catalog tables incrementally with COPY INTO.
+          topics: [ingest-files]
+        - id: A2.3
+          text: Use Auto Loader with schema enforcement and schema evolution, in scheduled (batch-style) runs, with directory listing or file notification.
+          topics: [ingest-files]
+        - id: A2.4
+          text: Configure Lakeflow Connect to ingest reliably from enterprise applications and databases into Unity Catalog tables.
+          topics: [ingest-sources]
+        - id: A2.5
+          text: Land data from JDBC, ODBC or REST sources with notebook code, orchestrated by Lakeflow Jobs.
+          topics: [ingest-sources]
+        - id: A2.6
+          text: Choose between Auto Loader, Lakeflow Connect (standard and managed), partner connectors and other methods based on volume, frequency, data type and governance needs.
+          topics: [ingest-files, ingest-sources, sharing]
+        - id: A2.7
+          text: Ingest semi-structured and unstructured data (JSON, nested structures, documents) into Delta tables in Unity Catalog.
+          topics: [semi-structured]
+    - id: 3
+      name: Data Transformation and Modeling
+      weight: 22
+      per_mock: 10
+      objectives:
+        - id: A3.1
+          text: Clean bronze data into silver tables with PySpark or SQL (handle nulls, standardise types, write the result).
+          topics: [transform, modeling, delta, cdc]
+        - id: A3.2
+          text: Combine data with inner, left, multi-key, cross and broadcast joins, and with UNION and UNION ALL.
+          topics: [transform]
+        - id: A3.3
+          text: Add, drop, split, rename and filter columns and rows, and explode arrays.
+          topics: [transform, semi-structured]
+        - id: A3.4
+          text: Deduplicate and aggregate data (counts, approximate distinct counts, averages, summary statistics).
+          topics: [transform]
+        - id: A3.5
+          text: Know the main Spark tuning settings (shuffle partitions, default parallelism, executor and driver memory, broadcast join threshold) and measure again after each change.
+          topics: [performance]
+        - id: A3.6
+          text: Choose and build gold-layer objects in Unity Catalog (views, materialized views, streaming tables, tables) for BI and analytics.
+          topics: [modeling, pipelines]
+        - id: A3.7
+          text: Apply data quality checks and validation rules to keep silver and gold data reliable.
+          topics: [pipelines, modeling]
+    - id: 4
+      name: Working with Lakeflow Jobs
+      weight: 16
+      per_mock: 7
+      objectives:
+        - id: A4.1
+          text: Implement control flow in jobs (retries, If/else conditions, For each loops).
+          topics: [jobs]
+        - id: A4.2
+          text: Configure notebook, SQL, dashboard and pipeline tasks and the dependencies between them.
+          topics: [jobs]
+        - id: A4.3
+          text: Schedule jobs with time-based (cron), file arrival and table update triggers.
+          topics: [jobs]
+        - id: A4.4
+          text: Choose between time-based and data-driven triggers based on when data arrives and on upstream dependencies.
+          topics: [jobs]
+    - id: 5
+      name: Implementing CI/CD
+      weight: 10
+      per_mock: 5
+      objectives:
+        - id: A5.1
+          text: Work with Git folders in the workspace (branch, switch, commit, push, open pull requests).
+          topics: [cicd]
+        - id: A5.2
+          text: Use bundle variables and target overrides to promote the same code through dev, test and prod.
+          topics: [cicd]
+        - id: A5.3
+          text: Deploy bundles that package jobs, declarative pipelines and other workspace assets.
+          topics: [cicd]
+        - id: A5.4
+          text: Use the Databricks CLI to validate, deploy and run bundles in automated CI/CD.
+          topics: [cicd]
+    - id: 6
+      name: Troubleshooting, Monitoring and Optimization
+      weight: 10
+      per_mock: 4
+      objectives:
+        - id: A6.1
+          text: Spot performance trends by comparing current run times with the job's run history.
+          topics: [monitoring]
+        - id: A6.2
+          text: Monitor job and pipeline health (run statuses, the task graph, upstream blockers, durations and failure rates).
+          topics: [monitoring, jobs]
+        - id: A6.3
+          text: Find data skew, expensive shuffles and disk spill from stage metrics in the Spark UI.
+          topics: [performance]
+        - id: A6.4
+          text: Explain liquid clustering and predictive optimization.
+          topics: [layout]
+        - id: A6.5
+          text: Diagnose cluster start failures, library conflicts and out-of-memory errors.
+          topics: [platform, performance]
+    - id: 7
+      name: Governance and Security
+      weight: 15
+      per_mock: 7
+      objectives:
+        - id: A7.1
+          text: Distinguish managed and external tables in Unity Catalog, and create, alter, drop and convert them.
+          topics: [governance]
+        - id: A7.2
+          text: Grant and revoke privileges with the UI and SQL at the right level of the object hierarchy, for users, groups and service principals.
+          topics: [governance]
+        - id: A7.3
+          text: Apply column masks and row filters so each group sees only the data it should.
+          topics: [privacy]
+        - id: A7.4
+          text: Use ABAC policies in Unity Catalog to manage row filters and column masks centrally.
+          topics: [privacy]
+
+P:
+  name: Databricks Certified Data Engineer Professional
+  short: Professional
+  version: Exam guide, 9 October 2026
+  guide_url: https://www.databricks.com/sites/default/files/2026-10/Databricks-Certified-Data-Engineer-Professional-Exam-Guide-9-Oct-2026.pdf
+  page_url: https://www.databricks.com/learn/certification/data-engineer-professional
+  questions: 60
+  minutes: 120
+  sprint_minutes: 95
+  description: >-
+    Tests whether you can design, build, secure, optimise and operate production data
+    pipelines on Databricks: streaming and CDC, testing and deployment, monitoring and
+    cost control, privacy and governance.
+  details:
+    - [Scored questions, "60 multiple choice, plus possible unscored items that are not marked"]
+    - [Time, "120 minutes (the time for unscored items is included)"]
+    - [Fee, "USD 200 plus tax"]
+    - [Delivery, "Online proctored or at a test centre"]
+    - [Languages, "English"]
+    - [Test aids, "None"]
+    - [Prerequisites, "None; related training is recommended"]
+    - [Recommended experience, "About 1 year of hands-on data engineering on Databricks"]
+    - [Validity, "2 years"]
+    - [Recertification, "Every 2 years, by passing the current exam"]
+  sections:
+    - id: 1
+      name: Developing Code for Data Processing using Python and SQL
+      weight: 23
+      per_mock: 14
+      objectives:
+        - id: P1.1
+          text: Structure Python projects for Declarative Automation Bundles so code is modular and ready for CI/CD.
+          topics: [cicd, testing]
+        - id: P1.2
+          text: Troubleshoot dependency conflicts and installation failures for PyPI packages, wheels and source archives on serverless, pipelines and bundles.
+          topics: [platform]
+        - id: P1.3
+          text: Write SQL, Python and pandas UDFs, including Unity Catalog functions, and choose between them.
+          topics: [udf-ai]
+        - id: P1.4
+          text: Build production streaming pipelines with Lakeflow Spark Declarative Pipelines and Auto Loader.
+          topics: [pipelines, ingest-files]
+        - id: P1.5
+          text: Create and automate jobs with the UI, the REST API and the CLI.
+          topics: [jobs]
+        - id: P1.6
+          text: Choose between a streaming table and a materialized view based on latency, cost and refresh needs.
+          topics: [pipelines]
+        - id: P1.7
+          text: Implement CDC with the AUTO CDC APIs, for SCD type 1 and type 2.
+          topics: [cdc]
+        - id: P1.8
+          text: Choose between Structured Streaming code and declarative pipelines for a workload and its constraints.
+          topics: [streaming, pipelines]
+        - id: P1.9
+          text: Build jobs with control flow tasks (If/else condition, For each).
+          topics: [jobs]
+        - id: P1.10
+          text: Choose compute and configure environments and dependencies (serverless environments and performance mode, high-memory tasks, retry settings).
+          topics: [platform, jobs]
+        - id: P1.11
+          text: Write unit and integration tests with schema and DataFrame equality assertions, DataFrame.transform and a test framework.
+          topics: [testing]
+        - id: P1.12
+          text: Apply stateful streaming (watermarks, output modes, foreachBatch, checkpoints and exactly-once recovery).
+          topics: [streaming]
+    - id: 2
+      name: Data Ingestion and Acquisition
+      weight: 12
+      per_mock: 7
+      objectives:
+        - id: P2.1
+          text: Ingest Delta, Parquet, JSON, Iceberg, CSV and binary data from message buses and cloud storage.
+          topics: [ingest-files, ingest-sources, semi-structured, delta]
+        - id: P2.2
+          text: Build incremental CDC pipelines with Delta or Iceberg target tables.
+          topics: [cdc]
+        - id: P2.3
+          text: Ingest CDC from SQL Server, MySQL and PostgreSQL with Lakeflow Connect.
+          topics: [ingest-sources, cdc]
+        - id: P2.4
+          text: Share data with OpenSharing (Databricks-to-Databricks and open sharing) and collaborate in Clean Rooms.
+          topics: [sharing]
+        - id: P2.5
+          text: Configure Lakehouse Federation with connections, credentials and Unity Catalog permissions.
+          topics: [sharing]
+    - id: 3
+      name: Data Manipulation
+      weight: 12
+      per_mock: 7
+      objectives:
+        - id: P3.1
+          text: Use window functions, joins and aggregations on large data with Spark SQL and PySpark.
+          topics: [transform]
+        - id: P3.2
+          text: Model and query semi-structured data with VARIANT and functions such as parse_json and variant_get.
+          topics: [semi-structured]
+        - id: P3.3
+          text: Use AI functions such as ai_query to enrich and classify data in pipelines.
+          topics: [udf-ai]
+        - id: P3.4
+          text: Use expectations to drop, quarantine or fail on bad records in declarative pipelines.
+          topics: [pipelines]
+    - id: 4
+      name: Monitoring and Alerting
+      weight: 10
+      per_mock: 6
+      objectives:
+        - id: P4.1
+          text: Use system tables (billing, compute, access, lakeflow) for cost analysis, auditing and workload monitoring.
+          topics: [monitoring]
+        - id: P4.2
+          text: Monitor jobs and pipelines with the REST API, the CLI and the SDK.
+          topics: [monitoring]
+        - id: P4.3
+          text: Use the pipeline event log to monitor pipeline health and data quality.
+          topics: [monitoring, pipelines]
+        - id: P4.4
+          text: Use Databricks SQL alerts (the guide calls them Lakehouse alerts) on metrics, data quality, cost, warehouse health, audit events and job branching.
+          topics: [monitoring]
+        - id: P4.5
+          text: Use the Jobs UI and the Jobs API to follow job status and performance.
+          topics: [monitoring, jobs]
+    - id: 5
+      name: Cost and Performance Optimization
+      weight: 15
+      per_mock: 9
+      objectives:
+        - id: P5.1
+          text: Explain how managed tables, predictive optimization and liquid clustering reduce maintenance work.
+          topics: [layout, governance]
+        - id: P5.2
+          text: Choose a Delta optimization (deletion vectors, liquid clustering, CLUSTER BY AUTO) for an access pattern.
+          topics: [layout]
+        - id: P5.3
+          text: Explain how the disk cache speeds up repeated reads of the same data.
+          topics: [performance]
+        - id: P5.4
+          text: Use Change Data Feed to process row-level inserts, updates and deletes incrementally.
+          topics: [cdc]
+        - id: P5.5
+          text: Use the query profile to find poor data skipping, join strategy problems and shuffles.
+          topics: [performance]
+        - id: P5.6
+          text: Compare liquid clustering with partitioning and Z-ordering for a table size and query pattern.
+          topics: [layout]
+    - id: 6
+      name: Ensuring Data Security and Compliance
+      weight: 8
+      per_mock: 5
+      objectives:
+        - id: P6.1
+          text: Apply least privilege to Unity Catalog securables and workspace objects.
+          topics: [governance]
+        - id: P6.2
+          text: Apply ABAC policies with governed tags to enforce row filters and column masks at scale.
+          topics: [privacy]
+        - id: P6.3
+          text: Anonymise and pseudonymise confidential data (hashing, tokenization, suppression, generalization).
+          topics: [privacy]
+        - id: P6.4
+          text: Build compliant batch and streaming pipelines that detect and mask PII.
+          topics: [privacy]
+        - id: P6.5
+          text: Implement retention and deletion, including GDPR erasure, with Delta Lake and Unity Catalog.
+          topics: [privacy, delta]
+    - id: 7
+      name: Data Governance
+      weight: 5
+      per_mock: 3
+      objectives:
+        - id: P7.1
+          text: Use Unity Catalog tags and comments to make data discoverable.
+          topics: [governance]
+        - id: P7.2
+          text: Explain privilege inheritance across catalogs, schemas and objects.
+          topics: [governance]
+    - id: 8
+      name: Debugging and Deploying
+      weight: 10
+      per_mock: 6
+      objectives:
+        - id: P8.1
+          text: Find diagnostic information in the Spark UI, cluster logs, system tables and query profiles.
+          topics: [performance, monitoring]
+        - id: P8.2
+          text: Repair failed job runs and rerun with parameter overrides.
+          topics: [jobs]
+        - id: P8.3
+          text: Deploy Databricks resources with Declarative Automation Bundles.
+          topics: [cicd]
+        - id: P8.4
+          text: Set up Git-based CI/CD with Databricks Git folders.
+          topics: [cicd]
+    - id: 9
+      name: Data Modeling
+      weight: 5
+      per_mock: 3
+      objectives:
+        - id: P9.1
+          text: Design Delta or Iceberg table layouts (partitioning that matches the data grain, clustering that matches access patterns, file sizes kept healthy by compaction).
+          topics: [layout]
+        - id: P9.2
+          text: Design dimensional models with materialized views for pre-computed aggregates and Unity Catalog metric views for governed metrics.
+          topics: [modeling]

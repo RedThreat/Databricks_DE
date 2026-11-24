@@ -1,0 +1,283 @@
+# Study plans. Each day lists topics (content/topics ids) and one practice action:
+#   section:A2   topic:<id>   mock:<n>   random:A|P   sprint:A|P   missed:A|P
+# "tasks" accepts inline Markdown.
+
+A:
+  title: "Associate: 23 November to 11 December"
+  intro: >-
+    Nineteen days, ordered by exam weight and by how topics build on each other. Weekdays take
+    about two hours, weekends up to five. Each day: read the topic, do its hands-on exercise in
+    Databricks Free Edition, then practise. From 5 December the plan switches to timed mocks and
+    review. Tick a day when it is done; if you fall behind, skip hands-on steps before skipping
+    practice.
+  days:
+    - date: "2026-11-23"
+      focus: Platform and compute (S1)
+      tasks: Read the topic. Create a Free Edition account, run the hands-on steps, and learn the old and new product names by heart.
+      hours: 2 h
+      topics: [platform]
+      practice: "section:A1"
+    - date: "2026-11-24"
+      focus: Delta Lake fundamentals
+      tasks: Transaction log, writes (`INSERT`, overwrite, `CREATE OR REPLACE`, `MERGE`), schema enforcement and evolution, history, `RESTORE`, `VACUUM`. Run the hands-on script.
+      hours: 2 h
+      topics: [delta]
+      practice: "topic:delta"
+    - date: "2026-11-25"
+      focus: Table layout and maintenance
+      tasks: Liquid clustering, `CLUSTER BY AUTO`, `OPTIMIZE`, deletion vectors, predictive optimization. Compare files read before and after `OPTIMIZE FULL`.
+      hours: 2 h
+      topics: [layout]
+      practice: "topic:layout"
+    - date: "2026-11-26"
+      focus: Ingestion (S2) part 1, files
+      tasks: Upload limits, volumes, `read_files`, `COPY INTO` (idempotency, `force`, `mergeSchema`), Auto Loader (checkpoint, schema location, evolution modes, triggers). Run both loaders twice.
+      hours: 2 h
+      topics: [ingest-files]
+      practice: "topic:ingest-files"
+    - date: "2026-11-27"
+      focus: Ingestion (S2) part 2, sources and nested data
+      tasks: Lakeflow Connect, JDBC and REST patterns, choosing a method, JSON paths, VARIANT, `explode`. Skim the federation section of the sharing topic.
+      hours: 2 h
+      topics: [ingest-sources, semi-structured, sharing]
+      practice: "section:A2"
+    - date: "2026-11-28"
+      focus: Transformations (S3) part 1
+      tasks: Columns, types and ANSI mode, NULL rules, joins, unions, deduplication, aggregations, windows. Do all five `samples.tpch` exercises.
+      hours: 5 h
+      topics: [transform]
+      practice: "topic:transform"
+    - date: "2026-11-29"
+      focus: Transformations (S3) part 2, medallion and pipelines
+      tasks: Bronze, silver, gold; facts and dimensions; views, materialized views and streaming tables; expectations and quarantine. Build the pipeline from the hands-on section.
+      hours: 5 h
+      topics: [modeling, pipelines]
+      practice: "section:A3"
+    - date: "2026-11-30"
+      focus: Spark tuning and code reading
+      tasks: The tuning settings table and the Spark UI section of the performance topic. Then practise S3 again, reading every code option line by line.
+      hours: 2 h
+      topics: [performance]
+      practice: "section:A3"
+    - date: "2026-12-01"
+      focus: Lakeflow Jobs (S4)
+      tasks: Task types, parameters and task values, Run if, If/else, For each, retries and timeouts, triggers, repair runs. Build the three-task job from the hands-on section and repair it.
+      hours: 5 h
+      topics: [jobs]
+      practice: "section:A4"
+    - date: "2026-12-02"
+      focus: Governance (S7) part 1
+      tasks: Hierarchy, managed versus external, privileges and inheritance, `REVOKE` behaviour, no `DENY`. Write the least-privilege grants of the topic from memory.
+      hours: 2 h
+      topics: [governance]
+      practice: "topic:governance"
+    - date: "2026-12-03"
+      focus: Governance (S7) part 2
+      tasks: Row filters, column masks, dynamic views, ABAC policies with governed tags. Apply a mask and a filter in Free Edition.
+      hours: 2 h
+      topics: [privacy]
+      practice: "section:A7"
+    - date: "2026-12-04"
+      focus: CI/CD (S5)
+      tasks: Git folders, bundle structure, targets and variables, deploy modes, CLI commands and authentication. Initialise, validate, deploy and run a bundle.
+      hours: 2 h
+      topics: [cicd]
+      practice: "section:A5"
+    - date: "2026-12-05"
+      focus: Troubleshooting (S6) and Mock 1
+      tasks: "Morning: monitoring topic (run history, statuses) and the problems table of the performance topic. Afternoon: Mock 1 under exam conditions: 45 questions, 90 minutes, no notes."
+      hours: 5 h
+      topics: [monitoring, performance]
+      practice: "mock:1"
+    - date: "2026-12-06"
+      focus: Review Mock 1
+      tasks: For every miss, write down the question, your answer and the misconception. Reread the two weakest sections' topics and practise the missed questions.
+      hours: 4 h
+      topics: []
+      practice: "missed:A"
+    - date: "2026-12-07"
+      focus: Mock 2
+      tasks: Timed, then reviewed the same way.
+      hours: 2.5 h
+      topics: []
+      practice: "mock:2"
+    - date: "2026-12-08"
+      focus: Mock 3 and weak spots
+      tasks: Timed mock in the morning; afternoon on the topics behind the misses, with their hands-on exercises.
+      hours: 4 h
+      topics: []
+      practice: "mock:3"
+    - date: "2026-12-09"
+      focus: Mock 4
+      tasks: Aim for 80% or more with at least 15 minutes to spare. Review every miss.
+      hours: 2.5 h
+      topics: []
+      practice: "mock:4"
+    - date: "2026-12-10"
+      focus: Light review
+      tasks: Cheat sheet, flashcards for the weakest topics, the missed questions, and the exam-day checklist. Stop early and sleep well.
+      hours: 1.5 h
+      topics: []
+      practice: "missed:A"
+    - date: "2026-12-11"
+      focus: Exam day
+      tasks: Follow the exam-day checklist. No new material.
+      hours: ""
+      topics: []
+
+P:
+  title: "Professional: four weeks"
+  intro: >-
+    Start after the Associate exam. The Professional exam goes deeper on streaming, CDC, testing,
+    deployment, monitoring, cost, privacy and modeling, and its questions are longer scenarios.
+    Weeks 1 to 3 cover the topics in the order they build on each other; week 4 is timed mocks.
+    Topic pages already include the Associate material, so reread them with the Professional
+    objectives (exam outline page) in mind.
+  weeks:
+    - title: "Week 1: platform, storage and ingestion at production depth"
+      days:
+        - focus: Exam outline and compute environments
+          tasks: Read the Professional outline. Platform topic, focusing on libraries, serverless environments, performance modes, auto-optimization retries and high memory.
+          hours: 2 h
+          topics: [platform]
+          practice: "topic:platform"
+        - focus: Delta and table layout
+          tasks: Concurrency, clones, `replaceWhere`, retention properties; liquid clustering versus partitioning and Z-order, deletion vectors, predictive optimization, disk cache.
+          hours: 2 h
+          topics: [delta, layout]
+          practice: "topic:layout"
+        - focus: Production ingestion
+          tasks: Auto Loader rate limits and file events, Kafka and `read_kafka`, Lakeflow Connect database connectors (gateway, CDC prerequisites), formats including binary files.
+          hours: 2 h
+          topics: [ingest-files, ingest-sources]
+          practice: "section:P2"
+        - focus: Sharing, Clean Rooms and Federation
+          tasks: D2D versus open sharing, `WITH HISTORY`, clean rooms, connections and foreign catalogs.
+          hours: 2 h
+          topics: [sharing]
+          practice: "topic:sharing"
+        - focus: Data manipulation at scale
+          tasks: Windows and ranking, VARIANT functions, joins and aggregations on large data.
+          hours: 2 h
+          topics: [semi-structured, transform]
+          practice: "section:P3"
+        - focus: UDFs and AI functions
+          tasks: SQL, Python and pandas UDFs, Unity Catalog functions, iterator UDFs, `ai_query` and task-specific AI functions.
+          hours: 3 h
+          topics: [udf-ai]
+          practice: "topic:udf-ai"
+        - focus: Review week 1
+          tasks: Flashcards for this week's topics and the missed questions.
+          hours: 1 h
+          topics: []
+          practice: "missed:P"
+    - title: "Week 2: pipelines, streaming, CDC and modeling"
+      days:
+        - focus: Declarative pipelines in depth
+          tasks: Streaming table versus materialized view, append flows, full refresh risks, event log, pipelines versus Structured Streaming.
+          hours: 2 h
+          topics: [pipelines]
+          practice: "topic:pipelines"
+        - focus: Stateful Structured Streaming
+          tasks: Output modes, watermarks, deduplication, stream-stream joins, `foreachBatch` idempotency, monitoring progress.
+          hours: 2 h
+          topics: [streaming]
+          practice: "topic:streaming"
+        - focus: CDC, AUTO CDC and Change Data Feed
+          tasks: SCD types, `SEQUENCE BY`, `TRACK HISTORY ON`, snapshots, CDF reads and retention.
+          hours: 2 h
+          topics: [cdc]
+          practice: "topic:cdc"
+        - focus: Data modeling
+          tasks: Star schemas, surrogate keys, materialized views versus metric views, `MEASURE()`.
+          hours: 2 h
+          topics: [modeling]
+          practice: "topic:modeling"
+        - focus: Lakeflow Jobs in depth
+          tasks: Control flow, For each concurrency, repair with parameter overrides, API, CLI and SDK automation.
+          hours: 2 h
+          topics: [jobs]
+          practice: "topic:jobs"
+        - focus: Section 1 practice
+          tasks: Section 1 is 23% of the exam. Practise it and reread the topics behind every miss.
+          hours: 3 h
+          topics: []
+          practice: "section:P1"
+        - focus: Review week 2
+          tasks: Flashcards and missed questions.
+          hours: 1 h
+          topics: []
+          practice: "missed:P"
+    - title: "Week 3: DevOps, operations and security"
+      days:
+        - focus: CI/CD with bundles
+          tasks: Project structure and wheels, targets, variables and lookups, modes, bind, lifecycle, CI authentication with federation.
+          hours: 2 h
+          topics: [cicd]
+          practice: "section:P8"
+        - focus: Testing
+          tasks: Pure functions, `DataFrame.transform`, `assertDataFrameEqual`, `assertSchemaEqual`, integration tests with a test target.
+          hours: 2 h
+          topics: [testing]
+          practice: "topic:testing"
+        - focus: Monitoring and alerting
+          tasks: System tables (billing, compute, query history, lakeflow, audit), event logs, SQL alerts, health rules, SDK and CLI monitoring.
+          hours: 2 h
+          topics: [monitoring]
+          practice: "section:P4"
+        - focus: Cost and performance
+          tasks: Query profile, skew, spill, broadcast, caching, Change Data Feed for incremental processing, layout choices.
+          hours: 2 h
+          topics: [performance, layout]
+          practice: "section:P5"
+        - focus: Governance
+          tasks: Least privilege, inheritance, `MANAGE` and `ALL PRIVILEGES`, workspace ACLs, catalog bindings, tags, comments, `information_schema`.
+          hours: 2 h
+          topics: [governance]
+          practice: "section:P7"
+        - focus: Privacy and compliance
+          tasks: ABAC with governed tags, PII detection and masking in pipelines, hashing, tokenization, generalization, GDPR erasure and retention.
+          hours: 3 h
+          topics: [privacy]
+          practice: "section:P6"
+        - focus: Review week 3
+          tasks: Flashcards and missed questions; reread the cheat sheet.
+          hours: 1 h
+          topics: []
+          practice: "missed:P"
+    - title: "Week 4: mocks"
+      days:
+        - focus: Mock 1
+          tasks: 60 questions in 120 minutes, exam conditions.
+          hours: 2.5 h
+          topics: []
+          practice: "mock:1"
+        - focus: Review Mock 1
+          tasks: Analyse every miss; reread the weakest sections' topics.
+          hours: 2 h
+          topics: []
+          practice: "missed:P"
+        - focus: Mock 2
+          tasks: Timed; review the misses the same evening.
+          hours: 3 h
+          topics: []
+          practice: "mock:2"
+        - focus: Mock 3
+          tasks: Timed; then the topics behind the misses.
+          hours: 3 h
+          topics: []
+          practice: "mock:3"
+        - focus: Random mock
+          tasks: A new weighted draw from the whole bank.
+          hours: 2.5 h
+          topics: []
+          practice: "random:P"
+        - focus: Sprint mock and misses
+          tasks: Same number of questions with less time, then the missed questions.
+          hours: 2.5 h
+          topics: []
+          practice: "sprint:P"
+        - focus: Light review
+          tasks: Cheat sheet, exam-day checklist, rest.
+          hours: 1 h
+          topics: []

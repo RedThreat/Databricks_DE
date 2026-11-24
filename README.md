@@ -1,42 +1,79 @@
-# Databricks Data Engineer Associate: site de estudo
+# Databricks Data Engineer study hub
 
-Site estático (GitHub Pages) para preparar o exame **Databricks Certified Data Engineer Associate** (versão de 4 de maio de 2026, 7 secções). Exame marcado para **11 de dezembro de 2026**.
+A static study site for the **Databricks Certified Data Engineer Associate** and **Professional** exams:
 
-## O que tem
+- the official exam outlines (paraphrased) with objectives you can tick,
+- 20 topic pages that cover both exams, each with exam traps and a hands-on exercise,
+- 365 practice questions with an explanation for every option: numbered mocks with the official section weights (4 Associate, 3 Professional, no question repeated across them), random and sprint mocks, practice by section or topic, and a list of missed questions,
+- flashcards, a cheat sheet, an exam-day checklist and two study plans.
 
-| Página | Conteúdo |
-| --- | --- |
-| Início | Formato do exame, pesos das 7 secções, contagem decrescente |
-| Plano dia a dia | 23 nov → 11 dez, com checkboxes guardadas no browser |
-| Matéria por secção | Resumo das 7 secções com tabelas, código, notas do Notion e links para as páginas de cada tópico |
-| Armadilhas | Palavras-chave → resposta e erros frequentes |
-| Flashcards | 95 cartões por secção (teclado: ← → espaço) |
-| Labs | Exercícios para o Databricks Free Edition |
-| Simulados | Mock 1, 2 e 3 (banco do site), o Simulado Associate (52 perguntas do ficheiro HTML), Sprint 75 min, treino por secção, revisão das falhadas, histórico |
-| Recursos | Vídeos, CertSafari, Notion (Associate e Professional), exam guide, docs |
-| Professional | Pesos e tópicos das 9 secções do exame de out 2026, links para o Notion e o Simulado Professional (80 perguntas) |
-| Dia do exame | Checklist de preparação e regras de vigilância |
+Progress is stored in the browser (`localStorage`); nothing is sent anywhere.
 
-Há 267 perguntas: 135 do banco do site, 52 do Simulado Associate e 80 do Simulado Professional. Nenhuma é do exame real. As dos simulados têm a explicação de cada alternativa e algumas pedem duas respostas. O progresso e o histórico ficam guardados no `localStorage` do browser.
+## Run it
 
-## Estrutura
+Open `index.html` in a browser, or serve the folder:
 
-```
-index.html          páginas (navegação por #hash)
-assets/style.css    estilos (tema claro/escuro automático)
-assets/app.js       navegação, plano, flashcards, motor dos simulados
-assets/questions.js        banco do site (Mock 1, 2 e 3)
-assets/questions_extra.js  perguntas dos dois simulados HTML (formato com explicação por alternativa)
-assets/data.js      plano, flashcards, links do Notion e estrutura do Professional
+```bash
+python3 -m http.server 8000
 ```
 
-Para acrescentar uma pergunta, junta um objeto a `assets/questions.js`:
+On GitHub, enable **Settings → Pages → Deploy from a branch → `main` / root**. The site needs no build step on GitHub because the generated data file is committed.
 
-```js
-{m:1, s:2, q:"Pergunta…", o:["A","B","C","D"], a:1, e:"Explicação"}
-// m = mock (1|2), s = secção (1..7), a = índice da resposta certa (começa em 0), code = excerto opcional
+## Edit content
+
+All content lives in `content/`. After changing anything there, rebuild the data file:
+
+```bash
+pip install markdown pyyaml
+python3 build.py
 ```
 
-## Publicar
+`build.py` validates the content (unknown topics or sections, questions without a correct answer, duplicate IDs) and writes `assets/data/site-data.js`. Commit both the content change and the regenerated file.
 
-Settings → Pages → Source: *Deploy from a branch* → `main` / root. O site fica em `https://<utilizador>.github.io/<repo>/`.
+| Path | Contains |
+|---|---|
+| `content/exams.yml` | Both exams: format, sections, weights, questions per mock, objectives and the topics that cover them |
+| `content/topics/NN-<id>.md` | One page per topic (front matter: `id`, `title`, `group`, `order`, `summary`) |
+| `content/questions/NN-<topic>.md` | Practice questions, grouped by topic |
+| `content/flashcards.yml` | Flashcards (`topic`, `front`, `back`) |
+| `content/plans.yml` | The Associate (dated) and Professional (weekly) study plans |
+| `content/pages/*.md` | Cheat sheet, exam day, resources |
+| `assets/js/app.js`, `assets/css/site.css`, `index.html` | The application |
+
+### Question format
+
+```markdown
+## new-delta-05
+exam: A3 P3
+topic: delta
+level: A
+source: new
+
+Question text in Markdown (code blocks allowed).
+
+- [ ] Wrong option :: Why it is wrong.
+- [x] Right option :: Why it is right.
+- [ ] Another wrong option :: Why it is wrong.
+
+> One-line takeaway shown after answering.
+```
+
+- `exam`: sections the question belongs to (`A1`–`A7`, `P1`–`P9`). The first section of each exam is the one used for mocks.
+- `level`: `A` or `P`; numbered mocks use questions of their own level first.
+- Mark several options with `[x]` for "choose two" questions.
+- IDs must be unique. Adding or removing questions changes how the numbered mocks are drawn.
+
+### Topic pages
+
+Topic pages are Markdown with tables, fenced code and admonitions:
+
+```markdown
+!!! trap "Short title"
+    Indented text of the trap.
+```
+
+Admonition types used: `trap`, `tip`, `note`. Every `##` heading appears in the page's table of contents.
+
+## Sources
+
+Objectives are paraphrased from the official exam guides (Associate, August 2026; Professional, 9 October 2026). Check the current guides before the exam; links are on the Resources page. This is independent study material, not affiliated with Databricks, and no question comes from a real exam.
