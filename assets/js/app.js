@@ -132,11 +132,12 @@ function renderDashboard() {
   const today = todayISO();
   const planA = S.plans.A.days;
   const todays = planA.find(d => d.date === today);
+  const upcoming = todays || planA.find(d => d.date > today);   // before the plan starts, show the next day
   app.innerHTML = `
   <h1>Databricks Data Engineer certifications</h1>
   <p class="lead">One place to prepare for both exams: the official outlines with your progress, ${TOPICS.length} topics written for both exams, ${Q.length} practice questions with explanations, flashcards and study plans.</p>
   <div class="grid2">${EKEYS.map(examCard).join("")}</div>
-  ${todays ? `<div class="card"><div class="muted small">Today in the Associate plan</div><h3 style="margin:4px 0 6px">${esc(todays.focus)}</h3><div>${todays.tasks}</div><div class="btns">${planLinks(todays)}<a class="btn ghost small" href="#/plan/A">Open the plan</a></div></div>` : ""}
+  ${upcoming ? `<div class="card"><div class="muted small">${todays ? "Today in the Associate plan" : "Next in the Associate plan: " + fmtDate(upcoming.date)}</div><h3 style="margin:4px 0 6px">${esc(upcoming.focus)}</h3><div>${upcoming.tasks}</div><div class="btns">${planLinks(upcoming)}<a class="btn ghost small" href="#/plan/A">Open the plan</a></div></div>` : ""}
   <h2>How to use this site</h2>
   <ol>
     <li>Open the <a href="#/exam/A">exam outline</a> and tick each objective once you can explain it without notes.</li>
