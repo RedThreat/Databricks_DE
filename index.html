@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Databricks Data Engineer Associate — Estudo</title>
+<meta name="description" content="Plano de estudo, matéria, simulados e recursos para a certificação Databricks Certified Data Engineer Associate (versão de maio 2026).">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%231f2a37%27/%3E%3Ctext x=%2716%27 y=%2721%27 font-family=%27Arial%27 font-size=%2713%27 font-weight=%27700%27 fill=%27white%27 text-anchor=%27middle%27%3EDE%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<button class="menu-btn" onclick="document.querySelector('nav.side').classList.toggle('open')">Menu</button>
+<div class="layout">
+<nav class="side">
+  <div class="brand">Data Engineer Associate</div>
+  <div class="sub">Databricks · exame a 11 dez 2026</div>
+  <a href="#inicio">Início</a>
+  <a href="#plano">Plano dia a dia</a>
+  <div class="group">Estudar</div>
+  <a href="#estudo">Matéria por secção</a>
+  <a href="#armadilhas">Armadilhas</a>
+  <a href="#flashcards">Flashcards</a>
+  <a href="#labs">Labs (Free Edition)</a>
+  <div class="group">Treinar</div>
+  <a href="#mocks">Simulados</a>
+  <div class="group">Referência</div>
+  <a href="#recursos">Recursos e vídeos</a>
+  <a href="#pro">Professional</a>
+  <a href="#exame">Dia do exame</a>
+  <div class="count"><span id="cd-label">Faltam</span><b id="cd">–</b>até ao exame</div>
+</nav>
+
+<main>
+
+<!-- ═════════════ INÍCIO ═════════════ -->
+<section class="page" id="p-inicio">
+  <h1>Databricks Certified Data Engineer Associate</h1>
+  <p class="lead">Tudo num sítio: um plano de estudo de três semanas, a matéria das 7 secções do exame de maio 2026, simulados com explicações, flashcards, labs práticos e recursos.</p>
+
+  <div class="grid">
+    <div class="stat"><div class="k">Perguntas</div><div class="v">45 + até 10</div><div class="d">as extra não contam e não são identificadas</div></div>
+    <div class="stat"><div class="k">Tempo</div><div class="v">90 min</div><div class="d">≈ 1,6 min por pergunta</div></div>
+    <div class="stat"><div class="k">Meta de treino</div><div class="v">≥ 80%</div><div class="d">nos simulados antes do dia 11</div></div>
+    <div class="stat"><div class="k">O teu melhor mock</div><div class="v" id="best-mock">—</div><div class="d" id="best-mock-d">ainda sem tentativas</div></div>
+  </div>
+
+  <h2>Pesos das secções</h2>
+  <div class="card weights" id="weights"></div>
+  <p class="muted small">Fonte: <a href="https://www.databricks.com/sites/default/files/2026-10/Databricks-Certified-Data-Engineer-Associate-Exam-Guide-August-2026.pdf" target="_blank" rel="noopener">exam guide oficial (atualizado agosto 2026)</a>. Confirma-o duas semanas antes do exame.</p>
+
+  <div class="callout"><b>Atenção a material antigo.</b> O exame atual tem 7 secções desde 4 de maio de 2026. Muitas perguntas online ainda usam nomes antigos: <b>DLT</b> → Lakeflow Spark Declarative Pipelines, <b>Workflows</b> → Lakeflow Jobs, <b>Asset Bundles</b> → Declarative Automation Bundles, <b>Repos</b> → Git folders, <b>Shared/Single user</b> → Standard/Dedicated.</div>
+
+  <h2>Como usar este site</h2>
+  <ol class="tight">
+    <li>Abre o <a href="#plano">plano</a> e vê a linha de hoje (fica destacada). Marca o dia quando acabares.</li>
+    <li>Estuda a secção do dia em <a href="#estudo">Matéria</a> e faz o lab correspondente em <a href="#labs">Labs</a>.</li>
+    <li>Fecha com <a href="#mocks">treino por secção</a> (aqui) e no CertSafari.</li>
+    <li>A 5 e 7 de dezembro faz os simulados completos cronometrados. O histórico fica guardado neste browser.</li>
+  </ol>
+</section>
+
+<!-- ═════════════ PLANO ═════════════ -->
+<section class="page" id="p-plano">
+  <h1>Plano dia a dia</h1>
+  <p class="lead">23 nov → 11 dez. Cada dia: ler a matéria → experimentar no Free Edition → perguntas do tema. 1,5–2 h nos dias úteis, 4–5 h ao fim de semana e nos feriados (1 e 8 dez). O progresso fica guardado neste browser.</p>
+  <div class="bar" style="margin:6px 0 4px"><span id="plan-bar" style="width:0"></span></div>
+  <p class="muted small" id="plan-pct"></p>
+  <table class="plan"><thead><tr><th></th><th>Dia</th><th>Foco</th><th>Tarefas</th><th>Tempo</th></tr></thead><tbody id="plan-body"></tbody></table>
+  <div class="callout tip"><b>Regra:</b> se uma secção ficar abaixo de 70% no Mock 1 ou no Mock 2, o dia 9 é só para ela.</div>
+</section>
+
+<!-- ═════════════ ESTUDO ═════════════ -->
+<section class="page" id="p-estudo">
+  <h1>Matéria por secção</h1>
+  <p class="lead">Resumo do que sai, organizado pelas 7 secções do exam guide. Cada bloco termina com um botão para treinares só essa secção.</p>
+  <div class="tabs" id="study-tabs"></div>
+
+  <div class="study-sec" data-sec="1">
+    <h2>1 · Databricks Intelligence Platform <span class="pill">6%</span></h2>
+    <p>Pouco peso, mas perguntas rápidas: arquitetura, Delta e escolha de compute.</p>
+    <ul class="tight">
+      <li><b>Control plane</b> fica sempre na conta Databricks. <b>Compute plane</b>: serverless (conta Databricks) ou clássico (a tua conta cloud).</li>
+      <li><b>Lakehouse</b> = object storage com formatos abertos + transações ACID (Delta) + governança única (Unity Catalog).</li>
+      <li>1 metastore UC por região, ligado a vários workspaces; os grants valem em todos.</li>
+      <li>No clássico pagas DBU + VM; no serverless o DBU já inclui a VM.</li>
+    </ul>
+    <table><tr><th>Caso</th><th>Compute</th></tr>
+      <tr><td>BI e SQL ad hoc, muitos utilizadores</td><td>Serverless SQL warehouse</td></tr>
+      <tr><td>Job agendado em Python ou SQL</td><td>Serverless jobs</td></tr>
+      <tr><td>R, RDD, Spark UI, init scripts ou pools</td><td>Job compute clássico (dedicated para R/RDD)</td></tr>
+      <tr><td>Desenvolvimento interativo</td><td>All-purpose (nunca em produção: é o mais caro)</td></tr>
+    </table>
+    <table><tr><th>Nome antigo</th><th>Nome atual</th></tr>
+      <tr><td>Delta Live Tables (DLT)</td><td>Lakeflow Spark Declarative Pipelines (SDP)</td></tr>
+      <tr><td>Workflows</td><td>Lakeflow Jobs</td></tr>
+      <tr><td>Databricks Asset Bundles</td><td>Declarative Automation Bundles (DABs)</td></tr>
+      <tr><td>Repos</td><td>Git folders</td></tr>
+      <tr><td>APPLY CHANGES INTO</td><td>AUTO CDC INTO</td></tr>
+      <tr><td>Shared / Single user</td><td>Standard / Dedicated</td></tr>
+      <tr><td>Delta Sharing</td><td>OpenSharing</td></tr>
+    </table>
+    <div class="callout trap"><b>Armadilha:</b> serverless não suporta R, RDD nem Spark UI (usa o query profile).</div>
+    <div class="card notion"><div class="tag">Do Notion: o que acrescenta a este resumo</div><ul class="tight"><li>Time travel e RESTORE precisam da retenção do log (30 dias) <b>e</b> dos ficheiros (VACUUM, 7 dias). RESTORE fica registado como versão nova.</li>
+<li>Schema evolution por operação (<code>MERGE WITH SCHEMA EVOLUTION</code>, <code>mergeSchema</code>); <code>autoMerge</code> de sessão é legacy.</li>
+<li>Stream sem trigger falha em serverless (<code>INFINITE_STREAMING_TRIGGER_NOT_SUPPORTED</code>): usa <code>availableNow</code>.</li>
+<li>SQL warehouses só correm SQL; serverless SQL warehouse arranca em segundos (pro/classic ~4 min) e auto stop por defeito aos 10 min.</li>
+<li>Serverless jobs: <i>performance optimized</i> desligado = modo standard (arranca em 4–6 min, gasta menos DBUs).</li>
+<li>Standard access mode não suporta R: R + RDD → classic job compute em <b>dedicated</b>.</li></ul><div class="notion-links" data-sec="1"></div></div>
+  </div>
+
+  <div class="study-sec" data-sec="2">
+    <h2>2 · Data Ingestion and Loading <span class="pill">21%</span></h2>
+    <p>A pergunta típica dá um cenário (volume, frequência, fonte, schema que muda) e pede o método certo.</p>
+    <table><tr><th>Cenário</th><th>Método</th></tr>
+      <tr><td>SaaS ou base de dados suportada (Salesforce, SQL Server, Workday…)</td><td>Lakeflow Connect (managed connectors)</td></tr>
+      <tr><td>Milhões de ficheiros, schema que muda, incremental</td><td>Auto Loader ou streaming table com <code>read_files</code></td></tr>
+      <tr><td>Milhares de ficheiros, SQL, recargas pontuais, idempotente</td><td>COPY INTO</td></tr>
+      <tr><td>Kafka / Kinesis</td><td>Structured Streaming / streaming table</td></tr>
+      <tr><td>Base de dados sem conector</td><td>Notebook com JDBC + UC connection, agendado num Job</td></tr>
+      <tr><td>Ficheiro local pequeno</td><td>Upload na UI ou para um volume</td></tr>
+      <tr><td>Consulta ad hoc sem copiar dados</td><td>Lakehouse Federation</td></tr>
+      <tr><td>Sem conector gerido, com ferramenta de parceiro</td><td>Partner Connect (Fivetran, Qlik…)</td></tr>
+    </table>
+    <h3>Auto Loader — de cor</h3>
+<pre><code>(spark.readStream.format("cloudFiles")
+   .option("cloudFiles.format", "json")
+   .option("cloudFiles.schemaLocation", "/Volumes/main/raw/_schemas/orders")
+   .option("cloudFiles.schemaEvolutionMode", "addNewColumns")   # defeito sem schema
+   .load("/Volumes/main/raw/orders/")
+   .select("*", "_metadata.file_path")
+ .writeStream
+   .option("checkpointLocation", "/Volumes/main/raw/_chk/orders")
+   .trigger(availableNow=True)          # processa o que há e pára
+   .toTable("main.bronze.orders"))</code></pre>
+    <table><tr><th>schemaEvolutionMode</th><th>O que acontece com uma coluna nova</th></tr>
+      <tr><td><code>addNewColumns</code> (defeito sem schema)</td><td>O stream falha (UnknownFieldException); ao reiniciar já inclui a coluna</td></tr>
+      <tr><td><code>rescue</code></td><td>Não evolui o schema; os dados vão para <code>_rescued_data</code></td></tr>
+      <tr><td><code>failOnNewColumns</code></td><td>Falha e não evolui até mudares o schema</td></tr>
+      <tr><td><code>none</code> (defeito com schema)</td><td>Ignora colunas novas</td></tr>
+    </table>
+    <ul class="tight">
+      <li>Deteção de ficheiros: <b>directory listing</b> (defeito) vs. <b>file notification</b> com file events (o <b>recomendado</b>; <code>cloudFiles.useManagedFileEvents</code>). Mudar de modo mantém o checkpoint.</li>
+      <li>JSON/CSV são inferidos como string, salvo <code>cloudFiles.inferColumnTypes</code>.</li>
+      <li>Incremental batch vs. streaming: é o <b>trigger</b> que decide (availableNow vs. processingTime/contínuo).</li>
+    </ul>
+    <h3>COPY INTO</h3>
+<pre><code>COPY INTO main.bronze.sales
+FROM '/Volumes/main/raw/sales/'
+FILEFORMAT = CSV
+FORMAT_OPTIONS ('header' = 'true', 'inferSchema' = 'true')
+COPY_OPTIONS ('mergeSchema' = 'true');      -- 'force' = 'true' para recarregar</code></pre>
+    <p>Idempotente: ignora ficheiros já carregados, mesmo que modificados. <code>FORMAT_OPTIONS</code> = como ler o ficheiro; <code>COPY_OPTIONS</code> = como carregar.</p>
+    <h3>JSON e semi-estruturados</h3>
+    <table><tr><th>Tipo da coluna</th><th>Como aceder</th></tr>
+      <tr><td>STRING com JSON / VARIANT</td><td><code>raw:customer.address.city</code>, <code>raw:items[0].sku</code></td></tr>
+      <tr><td>STRUCT</td><td><code>customer.address.city</code></td></tr>
+      <tr><td>Converter string → struct</td><td><code>from_json(raw, schema_of_json('&lt;exemplo&gt;'))</code></td></tr>
+      <tr><td>Arrays → linhas</td><td><code>explode</code> / <code>explode_outer</code></td></tr>
+    </table>
+    <p>VARIANT (<code>parse_json</code>) é preferível a guardar JSON como string.</p>
+    <div class="card notion"><div class="tag">Do Notion: o que acrescenta a este resumo</div><ul class="tight"><li><b>COPY INTO</b>: <code>FILES</code> (até 1000) e <code>PATTERN</code> não se combinam. <code>FORMAT_OPTIONS mergeSchema</code> = schema da fonte; <code>COPY_OPTIONS mergeSchema</code> = evolui o destino. Ficheiro corrigido: apaga as linhas antigas e só depois faz <code>FILES</code> + <code>force</code>. <code>VALIDATE</code> testa sem escrever.</li>
+<li><b>Auto Loader</b>: inferência sobre os primeiros 50 GB ou 1000 ficheiros. Com <code>addNewColumns</code> o stream falha e evolui ao reiniciar → job com retries + <code>mergeSchema</code> na escrita. Com schema fornecido, o <code>_rescued_data</code> só existe se definires <code>rescuedDataColumn</code>.</li>
+<li><b>read_files infere tipos; Auto Loader infere strings</b> (JSON/CSV/XML).</li>
+<li><code>singleVariantColumn</code>: registo inteiro em VARIANT, sem schema evolution nem rescued data. <code>[*]</code> só em JSON string; em VARIANT usa <code>variant_explode</code>. Campos de VARIANT são case sensitive.</li>
+<li>Upload pela UI: até 10 ficheiros, menos de 2 GB no total, sem comprimidos. Maior → volume (até 5 GB por ficheiro na UI).</li>
+<li>Managed connectors: CDC de bases de dados usa um <b>gateway</b> contínuo (não o pares); <code>CREATE CONNECTION</code> / <code>USE CONNECTION</code>; SCD1 por defeito, SCD2 onde suportado; apagar a pipeline apaga as tabelas.</li>
+<li>JDBC: <code>lowerBound</code>/<code>upperBound</code> <b>não filtram</b>. REST: segredos, paginação, backoff em 429, escrever em volume.</li>
+<li>Audit logs entregues podem ser reescritos → <code>cloudFiles.allowOverwrites=true</code> + dedup; ou lê <code>system.access.audit</code> (365 dias).</li>
+<li>Ordem de escolha: managed connector → Lakeflow pipeline → Structured Streaming. Tabelas criadas pelo Partner Connect pertencem ao service principal do parceiro.</li></ul><div class="notion-links" data-sec="2"></div></div>
+  </div>
+
+  <div class="study-sec" data-sec="3">
+    <h2>3 · Data Transformation and Modeling <span class="pill">22%</span></h2>
+    <p>A secção com mais peso e mais código para ler. Um pormenor de uma linha decide a resposta.</p>
+    <h3>Delta Lake: comandos de escrita</h3>
+    <table><tr><th>Situação</th><th>Comando</th></tr>
+      <tr><td>Acrescentar linhas</td><td><code>INSERT INTO</code> / <code>mode("append")</code></td></tr>
+      <tr><td>Substituir dados, mesmo schema</td><td><code>INSERT OVERWRITE</code> / <code>mode("overwrite")</code> (falha se o schema mudar)</td></tr>
+      <tr><td>Substituir dados e schema, mantendo histórico e grants</td><td><code>CREATE OR REPLACE TABLE ... AS SELECT</code> (ou <code>overwriteSchema</code>)</td></tr>
+      <tr><td>Upsert / SCD1 / evitar duplicados</td><td><code>MERGE INTO</code> (fonte deduplicada!)</td></tr>
+      <tr><td>Só inserir o que não existe</td><td><code>MERGE</code> só com <code>WHEN NOT MATCHED INSERT</code></td></tr>
+      <tr><td>Aceitar colunas novas</td><td><code>mergeSchema</code> / <code>MERGE WITH SCHEMA EVOLUTION</code></td></tr>
+      <tr><td>Ver versões / ler o passado</td><td><code>DESCRIBE HISTORY</code> / <code>VERSION AS OF</code>, <code>TIMESTAMP AS OF</code></td></tr>
+      <tr><td>Reverter</td><td><code>RESTORE TABLE t TO VERSION AS OF n</code> (cria um commit novo)</td></tr>
+    </table>
+<pre><code>MERGE INTO main.silver.customers t
+USING updates s ON t.id = s.id
+WHEN MATCHED THEN UPDATE SET *
+WHEN NOT MATCHED THEN INSERT *;</code></pre>
+    <p><code>saveAsTable</code> com o modo por defeito (errorifexists) dá erro se a tabela já existir.</p>
+    <h3>PySpark e SQL que costumam apanhar</h3>
+    <ul class="tight">
+      <li><code>x = NULL</code> nunca é verdadeiro: usa <code>IS NULL</code>, <code>isNull()</code>, <code>coalesce</code>. Chaves NULL não fazem join; <code>&lt;=&gt;</code> / <code>eqNullSafe</code> fazem.</li>
+      <li><code>fillna(0)</code> só preenche colunas numéricas; para várias: <code>fillna({"q": 0, "r": "n/a"})</code>.</li>
+      <li>Com ANSI ligado, um <code>CAST</code> inválido falha: usa <code>try_cast</code>. Em <code>to_date(s,'dd/MM/yyyy')</code>, <code>M</code> é mês e <code>m</code> é minuto.</li>
+      <li><code>join(o, "k")</code> deixa uma cópia da chave; <code>join(o, a.k == b.k)</code> deixa duas (risco de AMBIGUOUS_REFERENCE).</li>
+      <li><code>left_semi</code> / <code>left_anti</code>: existe / não existe correspondência.</li>
+      <li><code>union</code> em PySpark = UNION ALL por posição; <code>UNION</code> em SQL remove duplicados; <code>unionByName(allowMissingColumns=True)</code> junta por nome.</li>
+      <li><code>split</code> devolve array; <code>[i]</code> começa em 0, <code>element_at</code> em 1. <code>explode</code> descarta arrays NULL ou vazios; <code>explode_outer</code> mantém.</li>
+      <li><code>dropDuplicates(["k"])</code> fica com uma linha qualquer. Para a mais recente: <code>row_number()</code> numa janela ordenada por <code>ts desc</code> (SQL: <code>QUALIFY</code>).</li>
+      <li><code>count(*)</code> conta tudo; <code>count(col)</code>, <code>avg</code>, <code>sum</code> ignoram NULL. <code>approx_count_distinct</code> é aproximado.</li>
+    </ul>
+<pre><code>from pyspark.sql import functions as F, Window
+w = Window.partitionBy("customer_id").orderBy(F.col("updated_at").desc())
+latest = df.withColumn("rn", F.row_number().over(w)).filter("rn = 1").drop("rn")
+
+-- SQL
+SELECT * FROM orders
+QUALIFY row_number() OVER (PARTITION BY customer_id ORDER BY updated_at DESC) = 1;</code></pre>
+    <h3>Factos e dimensões (Gold)</h3>
+    <table><tr><th></th><th>Facto</th><th>Dimensão</th></tr>
+      <tr><td>Contém</td><td>Eventos e medidas + chaves estrangeiras</td><td>Atributos descritivos (cliente, produto, data)</td></tr>
+      <tr><td>Tamanho</td><td>Muitas linhas, cresce sempre</td><td>Menos linhas, muda devagar</td></tr>
+      <tr><td>Responde a</td><td>“Quanto?”, “quantos?”</td><td>“Quem?”, “o quê?”, “quando?”, “onde?”</td></tr>
+      <tr><td>Histórico</td><td>Append</td><td>SCD1 (sobrescreve) ou SCD2 (histórico com validade)</td></tr>
+    </table>
+    <p>Medallion: <b>Bronze</b> (raw, append) → <b>Silver</b> (limpo, deduplicado, conformado) → <b>Gold</b> (star schema / agregados para BI).</p>
+    <h3>Objetos e pipelines declarativas</h3>
+    <table><tr><th>Objeto</th><th>Comportamento</th></tr>
+      <tr><td>View</td><td>Só a query; sempre atual; não guarda dados</td></tr>
+      <tr><td>Materialized view</td><td>Resultado guardado; <code>REFRESH</code>, agendado ou <code>TRIGGER ON UPDATE</code></td></tr>
+      <tr><td>Streaming table</td><td>Append incremental: cada linha processada uma vez</td></tr>
+    </table>
+<pre><code>CREATE OR REFRESH STREAMING TABLE orders_bronze
+AS SELECT * FROM STREAM read_files('/Volumes/main/raw/orders', format => 'json');
+
+CREATE OR REFRESH STREAMING TABLE orders_silver (
+  CONSTRAINT valid_id     EXPECT (order_id IS NOT NULL) ON VIOLATION DROP ROW,
+  CONSTRAINT valid_amount EXPECT (amount &gt; 0)            -- sem ON VIOLATION = warn
+) AS SELECT * FROM STREAM(orders_bronze);
+
+CREATE OR REFRESH STREAMING TABLE customers_dim;
+CREATE FLOW customers_cdc AS AUTO CDC INTO customers_dim
+FROM STREAM(customers_changes)
+KEYS (customer_id)
+APPLY AS DELETE WHEN op = 'DELETE'
+SEQUENCE BY updated_at
+STORED AS SCD TYPE 2;</code></pre>
+    <table><tr><th>ON VIOLATION</th><th>Efeito</th><th>Python</th></tr>
+      <tr><td>(nada)</td><td>Mantém a linha e regista (warn)</td><td><code>@dp.expect</code></td></tr>
+      <tr><td><code>DROP ROW</code></td><td>Descarta a linha</td><td><code>@dp.expect_or_drop</code></td></tr>
+      <tr><td><code>FAIL UPDATE</code></td><td>Pára o flow</td><td><code>@dp.expect_or_fail</code></td></tr>
+    </table>
+    <div class="callout trap">Um full refresh apaga o histórico SCD2. Apagar a pipeline apaga as tabelas que ela gere. Import em Python: <code>from pyspark import pipelines as dp</code>.</div>
+    <div class="card notion"><div class="tag">Do Notion: o que acrescenta a este resumo</div><ul class="tight"><li>ANSI ligado por defeito (DBR 17.0+): <code>CAST</code> inválido falha (<code>CAST_INVALID_INPUT</code>) → <code>try_cast</code>. <code>to_date</code> sem formato espera yyyy-MM-dd.</li>
+<li><code>split(x,'-')[2]</code> fora do limite falha (<code>INVALID_ARRAY_INDEX</code>) → <code>try_element_at(…, 3)</code>, base 1.</li>
+<li>MERGE com duplicados na fonte → <code>DELTA_MULTIPLE_SOURCE_ROW_MATCHING_TARGET_ROW_IN_MERGE</code>.</li>
+<li><code>mode("overwrite")</code> mantém o schema (precisa de <code>overwriteSchema</code>); <code>CREATE OR REPLACE</code> mantém histórico, grants, row filters e masks.</li>
+<li>RENAME/DROP COLUMN precisam de column mapping; DROP COLUMN não apaga os dados (<code>REORG … APPLY (PURGE)</code> + VACUUM). <code>withColumnRenamed</code> e <code>drop</code> ignoram colunas inexistentes sem erro.</li>
+<li>Sem <code>ON</code> em SQL = cross join. Broadcast só do lado pequeno (o hint ignora o threshold).</li>
+<li><code>row_number</code> precisa de desempate único; <code>count(DISTINCT col)</code> também ignora NULL; <code>approx_count_distinct</code> rsd 0,05.</li>
+<li>Tuning: AQE tem threshold de broadcast em runtime de 30 MB; <code>spark.default.parallelism</code> só afeta RDD; <code>spark.driver.memory</code> não muda em runtime; serverless só aceita poucas Spark confs.</li>
+<li>MV/ST standalone precisam de SQL warehouse pro ou serverless; o refresh corre como o <b>dono</b>. Mudar a query de uma ST só afeta linhas novas.</li>
+<li>Expectations: <code>FAIL</code> faz rollback e não regista métricas; só Python agrupa (<code>@dp.expect_all…</code>). <b>CHECK constraint</b> aplica-se a todos os writers. Quarentena para guardar rejeitados.</li></ul><div class="notion-links" data-sec="3"></div></div>
+  </div>
+
+  <div class="study-sec" data-sec="4">
+    <h2>4 · Working with Lakeflow Jobs <span class="pill">16%</span></h2>
+    <p>As perguntas pedem a configuração certa: dependências, condições, retries e triggers.</p>
+    <ul class="tight">
+      <li>Tipos de task: notebook, SQL, dashboard, pipeline, Python script/wheel, Run Job, If/else, For each.</li>
+      <li>DAG com <code>depends_on</code>; o que não tem dependências corre em paralelo. <code>job_cluster_key</code> partilha um cluster entre tasks.</li>
+      <li><b>Parâmetros do job sobrepõem-se aos da task</b> com a mesma chave.</li>
+      <li>Passar valores: <code>dbutils.jobs.taskValues.set(key, value)</code> / <code>.get(taskKey, key)</code>, ou <code>{{tasks.ingest.values.row_count}}</code>.</li>
+      <li>Retries por task: <code>max_retries</code> (0 por defeito), <code>min_retry_interval_millis</code>, <code>retry_on_timeout</code>. <code>timeout_seconds</code> mata a tentativa; um warning só notifica.</li>
+      <li><b>Repair run</b>: volta a correr só as tasks que falharam e as dependentes.</li>
+    </ul>
+    <table><tr><th>Run if</th><th>Para quê</th></tr>
+      <tr><td>ALL_SUCCESS</td><td>Por defeito</td></tr>
+      <tr><td>ALL_DONE</td><td>Limpeza que corre sempre</td></tr>
+      <tr><td>AT_LEAST_ONE_FAILED</td><td>Alertas</td></tr>
+      <tr><td>NONE_FAILED / AT_LEAST_ONE_SUCCESS</td><td>Tolerar falhas ou tasks saltadas</td></tr>
+    </table>
+    <table><tr><th>Trigger</th><th>Quando usar</th></tr>
+      <tr><td>Scheduled (cron Quartz de 6 campos + timezone, ex. <code>0 30 6 * * ?</code>)</td><td>Prazo de negócio fixo</td></tr>
+      <tr><td>File arrival (volume ou external location)</td><td>Ficheiros chegam a horas imprevisíveis. Só ficheiros <b>novos</b> disparam; “Wait after last change” para rajadas</td></tr>
+      <tr><td>Table update (até 10 tabelas, any/all)</td><td>Correr quando uma tabela de origem muda. O Run as precisa de SELECT</td></tr>
+      <tr><td>Continuous</td><td>Dados sempre a fluir; um run sempre ativo. Sem dependências entre tasks nem retry policies; reinicia com exponential backoff</td></tr>
+      <tr><td>Manual</td><td>Run now / API</td></tr>
+    </table>
+<pre><code># task "ingest"
+dbutils.jobs.taskValues.set(key="row_count", value=df.count())
+# task "report"
+n = dbutils.jobs.taskValues.get(taskKey="ingest", key="row_count", default=0)</code></pre>
+    <div class="card notion"><div class="tag">Do Notion: o que acrescenta a este resumo</div><ul class="tight"><li>If/else: <code>==</code> e <code>!=</code> comparam <b>strings</b>; <code>&lt; &gt; &lt;= &gt;=</code> comparam números. Run if não cumprido → task <i>Excluded</i>.</li>
+<li>For each: input de JSON array, task value, job parameter ou SQL; <code>{{input}}</code>; concorrência 1–100.</li>
+<li>Timeout é por tentativa (30 min × 3 retries ≈ 2 h). Serverless pode fazer retries por conta própria.</li>
+<li>Job até 1000 tasks. SQL task em warehouse serverless ou pro (não classic). Notebook num warehouse só se for todo SQL.</li>
+<li>Job com pipeline task: máximo 1 run concorrente. Serverless script/wheel/dbt tasks precisam de <code>environment_key</code>. Shared job cluster não declara libraries.</li>
+<li>Array parameters via <code>{{job.parameters.&lt;name&gt;}}</code>. <code>taskValues.get(taskKey, key, default, debugValue)</code>.</li></ul><div class="notion-links" data-sec="4"></div></div>
+  </div>
+
+  <div class="study-sec" data-sec="5">
+    <h2>5 · Implementing CI/CD <span class="pill">10%</span></h2>
+    <p>Os colegas dizem que é importante: o fluxo de um bundle e os comandos da CLI.</p>
+    <table><tr><th>Passo</th><th>Comando</th></tr>
+      <tr><td>Criar a partir de template</td><td><code>databricks bundle init</code> (default-python, default-sql, dbt-sql… ou caminho/URL custom)</td></tr>
+      <tr><td>Validar e ver config resolvida</td><td><code>databricks bundle validate -t dev</code></td></tr>
+      <tr><td>Ver o que mudaria</td><td><code>databricks bundle plan -t prod</code></td></tr>
+      <tr><td>Criar/atualizar no workspace</td><td><code>databricks bundle deploy -t prod</code></td></tr>
+      <tr><td>Correr job/pipeline</td><td><code>databricks bundle run -t prod orders_job</code> (usa a <i>key</i> do recurso)</td></tr>
+      <tr><td>Apagar tudo</td><td><code>databricks bundle destroy</code> (<code>--auto-approve</code> em CI)</td></tr>
+      <tr><td>Adotar job da UI</td><td><code>databricks bundle generate job --existing-job-id &lt;id&gt; --bind</code></td></tr>
+    </table>
+<pre><code># databricks.yml (um só, na raiz)
+bundle:
+  name: orders_project
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    description: Catálogo de destino
+    default: dev_catalog
+
+targets:
+  dev:
+    mode: development        # prefixo [dev user] e schedules pausados
+    default: true
+    workspace:
+      host: https://adb-123.azuredatabricks.net
+  prod:
+    mode: production
+    workspace:
+      host: https://adb-456.azuredatabricks.net
+    variables:
+      catalog: prod_catalog  # override por ambiente
+
+# resources/orders_job.yml
+resources:
+  jobs:
+    orders_job:              # key usada em "bundle run"
+      name: orders-${bundle.target}
+      tasks:
+        - task_key: ingest
+          notebook_task:
+            notebook_path: ../src/ingest.ipynb
+            base_parameters:
+              catalog: ${var.catalog}</code></pre>
+    <ul class="tight">
+      <li>Substituições: <code>${var.x}</code>, <code>${bundle.target}</code>, <code>${workspace.current_user.userName}</code>.</li>
+      <li>Precedência: <code>--var</code> &gt; <code>BUNDLE_VAR_x</code> &gt; <code>variable-overrides.json</code> &gt; variáveis do target &gt; <code>default</code>.</li>
+      <li>Variáveis resolvem-se no <b>deploy</b>, não no run. Para valores por execução usa job parameters.</li>
+      <li>Sem <code>-t</code> usa o target com <code>default: true</code>.</li>
+      <li>Em CI: service principal com OAuth (M2M ou OIDC). Nunca PAT pessoal; segredos nunca no YAML.</li>
+      <li>GitFlow típico: feature → dev → release → main; cada merge dispara um GitHub Action que faz <code>bundle deploy -t &lt;target&gt;</code>.</li>
+      <li><b>Git folders</b>: branch, commit &amp; push, pull, merge, rebase na UI. O pull request é no fornecedor Git. Um Git folder por pessoa.</li>
+      <li>Outros: <code>databricks auth login</code>, <code>databricks jobs run-now / get-run / repair-run</code>, <code>databricks workspace export-dir</code>.</li>
+    </ul>
+    <div class="card notion"><div class="tag">Do Notion: o que acrescenta a este resumo</div><ul class="tight"><li>Segredos: variável sem default + <code>BUNDLE_VAR_x</code> no CI; em runtime, secret scope. Nunca no default nem no target (vão para o Git).</li>
+<li>Targets fazem <b>merge</b> com a definição de topo (tasks e job clusters por key): só pões o que muda.</li>
+<li><code>bundle run --var</code> não muda nada → usa <code>--params</code>. Caminhos relativos ao ficheiro YAML onde estão (<code>../src/…</code>).</li>
+<li>Production mode valida o branch (<code>git.branch</code>) e o run identity; <code>--force</code> contorna (não usar). Development mode: prefixo, tag dev, triggers pausados, runs concorrentes.</li>
+<li>Remover um recurso do YAML apaga-o no próximo deploy (<code>lifecycle.prevent_destroy</code>). Jobs do bundle são read-only na UI (Disconnect from source em emergência). Não fazer deploy de produção para <code>/Shared</code>.</li>
+<li>CLI: <code>--auto-approve</code> em CI; <code>--force-lock</code> só para lock órfão; <code>--select</code> não é para produção; <code>bundle summary</code>. Comandos atuais: <code>databricks jobs cancel-run|get-run|repair-run &lt;id&gt;</code>. Bundles precisam da CLI ≥ 0.218.</li>
+<li>CI: service principal com workload identity federation (<code>DATABRICKS_AUTH_TYPE=github-oidc</code>) ou OAuth M2M.</li>
+<li>Git folders: branch/pull/push precisam de <b>CAN MANAGE</b>; mudar de branch apaga assets que não existem no branch alvo; Rebase e Reset fazem force push. Em produção, tasks com source = repositório Git remoto.</li></ul><div class="notion-links" data-sec="5"></div></div>
+  </div>
+
+  <div class="study-sec" data-sec="6">
+    <h2>6 · Troubleshooting, Monitoring and Optimization <span class="pill">10%</span></h2>
+    <p>Padrão: sintoma → causa → correção.</p>
+    <table><tr><th>Sintoma</th><th>Causa provável</th><th>Correção</th></tr>
+      <tr><td>Uma task muito mais lenta (Max ≫ p75)</td><td>Data skew</td><td>AQE skew join, salting. Mais workers não resolve</td></tr>
+      <tr><td>Shuffle enorme</td><td>Join grande × pequena</td><td>Broadcast da pequena</td></tr>
+      <tr><td>Spill para disco</td><td>Partições grandes demais</td><td>Partições menores, mais memória</td></tr>
+      <tr><td>OOM no driver</td><td><code>collect()</code> / <code>toPandas()</code></td><td>Não trazer tudo para o driver</td></tr>
+      <tr><td>OOM no executor</td><td>Partições grandes ou skew</td><td>Reparticionar, tratar skew</td></tr>
+      <tr><td>Cluster não arranca</td><td>Init script, quota, instâncias</td><td>Event log e termination code (ex.: INIT_SCRIPT_FAILURE)</td></tr>
+      <tr><td>Conflito de bibliotecas</td><td>Versões incompatíveis</td><td><code>%pip install pkg==x.y</code> + <code>dbutils.library.restartPython()</code></td></tr>
+      <tr><td>Run mais lento que o habitual</td><td>Volume a crescer</td><td>Matrix view do run history; <code>system.lakeflow.job_run_timeline</code></td></tr>
+      <tr><td>Muitos ficheiros pequenos</td><td>Appends frequentes</td><td><code>OPTIMIZE</code></td></tr>
+    </table>
+    <h3>Otimização Delta</h3>
+    <table><tr><th>Objetivo</th><th>Comando</th></tr>
+      <tr><td>Compactar ficheiros pequenos</td><td><code>OPTIMIZE t</code></td></tr>
+      <tr><td>Organizar por colunas de filtro</td><td>Liquid clustering <code>CLUSTER BY (col)</code> (até 4 chaves; substitui partitioning e ZORDER)</td></tr>
+      <tr><td>Plataforma escolhe as chaves</td><td><code>CLUSTER BY AUTO</code> (precisa de predictive optimization)</td></tr>
+      <tr><td>Re-clusterizar tudo após mudar chaves</td><td><code>OPTIMIZE t FULL</code></td></tr>
+      <tr><td>Apagar ficheiros não referenciados</td><td><code>VACUUM t</code> (retenção 7 dias; corta time travel)</td></tr>
+      <tr><td>Materializar deletion vectors</td><td><code>OPTIMIZE</code> ou <code>REORG TABLE t APPLY (PURGE)</code></td></tr>
+    </table>
+    <ul class="tight">
+      <li>Predictive optimization corre OPTIMIZE, VACUUM e ANALYZE sozinha, só em tabelas <b>managed</b> do UC.</li>
+      <li>O estado final de um job vem das tasks folha. “Upstream failed” → sobe no grafo até à primeira falha.</li>
+      <li>Serverless: sem Spark UI → query profile (DATA_SKEW, DATA_SPILL).</li>
+      <li><code>spark.sql.shuffle.partitions</code> = 200; <code>autoBroadcastJoinThreshold</code> = 10 MB (-1 desliga). AQE ligado por defeito.</li>
+    </ul>
+    <div class="card notion"><div class="tag">Do Notion: o que acrescenta a este resumo</div><ul class="tight"><li>Estado final vem das tasks folha: <i>Succeeded with failures</i> = só falharam tasks não-folha. <i>Skipped</i> = limite de runs concorrentes com queueing desligado (com queueing espera até 48 h).</li>
+<li>Repair run só em jobs com 2+ tasks; recomeça a task do início → appends duplicam.</li>
+<li>Warning (health rule <code>RUN_DURATION_SECONDS</code>) só notifica; Timeout termina como Timed Out.</li>
+<li>Duration do run: Queued / Waiting for resources / Library installation / Running. Histórico na UI: 60 dias; system tables: 365.</li>
+<li>Skew: Max ≥ 50% acima do p75. AQE só trata skew em sort merge/shuffle hash joins e partições &gt; 5× mediana <b>e</b> &gt; 256 MB. Agregações → salting.</li>
+<li>Liquid clustering é incompatível com partitioning e ZORDER; PO corre em serverless, nunca faz ZORDER, ligado por defeito para contas criadas a partir de 11 nov 2024; histórico em <code>system.storage.predictive_optimization_operations_history</code>.</li>
+<li>Falhas de arranque: event log → termination code → <code>.stderr.log</code> em <code>&lt;log-path&gt;/&lt;cluster-id&gt;/init_scripts</code>. Bibliotecas com versão fixa (<code>==</code>).</li></ul><div class="notion-links" data-sec="6"></div></div>
+  </div>
+
+  <div class="study-sec" data-sec="7">
+    <h2>7 · Governance and Security <span class="pill">15%</span></h2>
+    <p>Hierarquia: metastore → catalog → schema → table / view / volume / function / model. Nome a três níveis: <code>catalog.schema.tabela</code>.</p>
+    <table><tr><th></th><th>Managed</th><th>External</th></tr>
+      <tr><td>Localização</td><td>O UC escolhe</td><td><code>LOCATION</code> numa external location</td></tr>
+      <tr><td><code>DROP TABLE</code></td><td>Apaga os dados (<code>UNDROP</code> até 7 dias)</td><td>Apaga só metadados</td></tr>
+      <tr><td>Predictive optimization</td><td>Sim</td><td>Não</td></tr>
+      <tr><td>Conversão</td><td>—</td><td><code>ALTER TABLE t SET MANAGED</code></td></tr>
+    </table>
+    <table><tr><th>Quero que o grupo…</th><th>Concede</th></tr>
+      <tr><td>Leia uma tabela</td><td><code>USE CATALOG</code> + <code>USE SCHEMA</code> + <code>SELECT</code></td></tr>
+      <tr><td>Escreva dados</td><td>+ <code>MODIFY</code></td></tr>
+      <tr><td>Crie tabelas num schema</td><td><code>USE CATALOG</code> + <code>USE SCHEMA</code> + <code>CREATE TABLE</code></td></tr>
+      <tr><td>Leia/escreva num volume</td><td><code>READ VOLUME</code> / <code>WRITE VOLUME</code></td></tr>
+      <tr><td>Use uma função ou máscara</td><td><code>EXECUTE</code></td></tr>
+      <tr><td>Veja metadados sem ler dados</td><td><code>BROWSE</code></td></tr>
+      <tr><td>Gira permissões sem ler dados</td><td><code>MANAGE</code></td></tr>
+      <tr><td>Use uma connection sem ver credenciais</td><td><code>USE CONNECTION</code></td></tr>
+    </table>
+<pre><code>GRANT USE CATALOG ON CATALOG main TO `analysts`;
+GRANT USE SCHEMA  ON SCHEMA  main.sales TO `analysts`;
+GRANT SELECT      ON TABLE   main.sales.orders TO `analysts`;
+
+-- Column mask
+CREATE FUNCTION main.sec.mask_salary(s DECIMAL(10,2))
+RETURN CASE WHEN is_account_group_member('hr_admins') THEN s ELSE NULL END;
+ALTER TABLE main.hr.employees ALTER COLUMN salary SET MASK main.sec.mask_salary;
+
+-- Row filter
+CREATE FUNCTION main.sec.region_filter(r STRING)
+RETURN is_account_group_member('admins') OR r = 'EU';
+ALTER TABLE main.sales.orders SET ROW FILTER main.sec.region_filter ON (region);</code></pre>
+    <ul class="tight">
+      <li>Herança desce do catalog/schema para tudo o que existe e vier a existir.</li>
+      <li><code>REVOKE</code> numa tabela não tira acesso herdado (e não dá erro). Revoga ao nível onde foi concedido.</li>
+      <li><b><code>DENY</code> não existe no Unity Catalog</b> (só no hive_metastore legacy). O que não é concedido está negado.</li>
+      <li>Concede a account groups e service principals, nunca a grupos locais do workspace.</li>
+      <li><b>ABAC</b>: governed tags + <code>CREATE POLICY ... COLUMN MASK ... MATCH COLUMNS has_tag_value('pii','email')</code>. Cobre tabelas atuais e futuras; não dá acesso, só muda o que se vê.</li>
+      <li>Lineage automático no Catalog Explorer; auditoria em <code>system.access.audit</code>; OpenSharing (ex-Delta Sharing); Lakehouse Federation.</li>
+    </ul>
+    <div class="card notion"><div class="tag">Do Notion: o que acrescenta a este resumo</div><ul class="tight"><li><code>UNDROP</code> recupera tabelas managed <b>e</b> external (7 dias); não recupera schemas, catálogos, volumes, views nem funções. <code>DROP SCHEMA</code> é RESTRICT por defeito.</li>
+<li>Ver o tipo: <code>DESCRIBE TABLE EXTENDED</code> (não <code>DESCRIBE DETAIL</code>). <code>SET MANAGED</code> reverte-se com <code>UNSET MANAGED</code> até 14 dias.</li>
+<li>Só o dono do catálogo/schema (ou quem tem MANAGE) concede USE CATALOG / USE SCHEMA. MANAGE não dá acesso a dados. Privilégios de metastore não herdam.</li>
+<li>Row filter: UDF BOOLEAN, 1 por tabela; column mask: 1 por coluna, extra inputs com <code>USING COLUMNS</code>. Aplicar: EXECUTE + dono da tabela. Ler em dedicated: DBR 15.4+ com serverless.</li>
+<li><code>is_account_group_member</code> (grupos de conta) vs <code>is_member</code> (workspace); <code>current_user()</code> deprecated → <code>session_user()</code>. Não se põe mask em views → dynamic view.</li>
+<li>ABAC: tags de coluna <b>não herdam</b>; ASSIGN na tag + APPLY TAG no objeto; só 1 filtro/máscara por utilizador e tabela (conflito bloqueia); pipelines avaliam como o run-as → service principal no EXCEPT; <code>SHOW EFFECTIVE POLICIES</code>.</li></ul><div class="notion-links" data-sec="7"></div></div>
+  </div>
+  <div class="btns" id="study-practice"></div>
+</section>
+
+<!-- ═════════════ ARMADILHAS ═════════════ -->
+<section class="page" id="p-armadilhas">
+  <h1>Armadilhas e palavras-chave</h1>
+  <p class="lead">Para a véspera. Com 45–55 perguntas em 90 minutos, reconhecer o padrão depressa conta tanto como saber a matéria.</p>
+  <table><tr><th>Se a pergunta diz…</th><th>Pensa em…</th></tr>
+    <tr><td>Milhões de ficheiros, schema que muda, incremental</td><td>Auto Loader</td></tr>
+    <tr><td>SQL, idempotente, milhares de ficheiros</td><td>COPY INTO</td></tr>
+    <tr><td>Recarregar ficheiro corrigido com o mesmo nome</td><td>COPY INTO com <code>'force'='true'</code></td></tr>
+    <tr><td>SaaS sem manter código de API</td><td>Lakeflow Connect</td></tr>
+    <tr><td>Consultar sem copiar</td><td>Lakehouse Federation</td></tr>
+    <tr><td>Processar o que é novo e parar</td><td><code>trigger(availableNow=True)</code></td></tr>
+    <tr><td>Voltar a correr só o que falhou</td><td>Repair run</td></tr>
+    <tr><td>Limpeza que corre sempre</td><td>Run if ALL_DONE</td></tr>
+    <tr><td>Guardar histórico de uma dimensão</td><td>SCD tipo 2</td></tr>
+    <tr><td>Muitos ficheiros pequenos</td><td><code>OPTIMIZE</code></td></tr>
+    <tr><td>Não sei por que colunas vão filtrar</td><td><code>CLUSTER BY AUTO</code></td></tr>
+    <tr><td>Promover o mesmo código para dev/test/prod</td><td>Bundle com targets e variáveis</td></tr>
+    <tr><td>Só um grupo vê a coluna completa</td><td>Column mask com <code>is_account_group_member</code></td></tr>
+    <tr><td>Regra central para todas as colunas PII</td><td>ABAC com governed tags</td></tr>
+    <tr><td>Job agendado ao menor custo</td><td>Job compute / serverless jobs, nunca all-purpose</td></tr>
+  </table>
+  <h2>Armadilhas frequentes</h2>
+  <ul class="tight">
+    <li><code>DENY</code> não existe no Unity Catalog.</li>
+    <li><code>REVOKE</code> não tira acesso herdado.</li>
+    <li><code>DROP</code> numa tabela external mantém os ficheiros.</li>
+    <li><code>VACUUM</code> corta o time travel.</li>
+    <li><code>rescue</code> não evolui o schema; <code>addNewColumns</code> falha primeiro e evolui ao reiniciar.</li>
+    <li>PySpark <code>union</code> não remove duplicados; SQL <code>UNION</code> remove.</li>
+    <li>Mais workers não resolvem skew nem OOM no driver.</li>
+    <li>Variáveis dos bundles resolvem-se no deploy, não no run.</li>
+    <li>Material antigo: DLT, Workflows, Repos e Asset Bundles são os mesmos temas com nomes novos. Não descartes uma opção só pelo nome.</li>
+  </ul>
+  <h2>No exame (dicas de quem já fez)</h2>
+  <ol class="tight">
+    <li>Faz vários mocks cronometrados. No CertSafari (45 perguntas) acaba com folga, como se fossem 55.</li>
+    <li>Marca as duvidosas e volta no fim. Máximo 2 min por pergunta à primeira passagem.</li>
+    <li>Lê os pormenores: “incremental”, “idempotente”, “menor custo”, “sem copiar” separam respostas plausíveis.</li>
+    <li>Nos excertos de código procura primeiro o erro óbvio: modo de escrita, NULL, índice 0 vs. 1, <code>union</code> vs. <code>unionByName</code>, trigger em falta.</li>
+  </ol>
+</section>
+
+<!-- ═════════════ FLASHCARDS ═════════════ -->
+<section class="page" id="p-flashcards">
+  <h1>Flashcards</h1>
+  <p class="lead">Clica no cartão para virar. Usa as setas ← → do teclado e o espaço para virar.</p>
+  <div class="tabs" id="flash-tabs"></div>
+  <div class="flash" id="flash"><div class="inner"><div class="face front" id="f-front"></div><div class="face back" id="f-back"></div></div></div>
+  <div class="btns" style="justify-content:center">
+    <button class="btn ghost" id="f-prev">Anterior</button>
+    <span class="muted" id="f-pos" style="align-self:center"></span>
+    <button class="btn ghost" id="f-shuffle">Baralhar</button>
+    <button class="btn" id="f-next">Seguinte</button>
+  </div>
+</section>
+
+<!-- ═════════════ LABS ═════════════ -->
+<section class="page" id="p-labs">
+  <h1>Labs no Databricks Free Edition</h1>
+  <p class="lead">Exercícios curtos para correr num notebook do <a href="https://www.databricks.com/learn/free-edition" target="_blank" rel="noopener">Free Edition</a> (grátis, serverless). A parte prática é o que fixa a matéria. Cria primeiro um catálogo/schema de trabalho.</p>
+<pre><code>CREATE SCHEMA IF NOT EXISTS workspace.prep;
+CREATE VOLUME IF NOT EXISTS workspace.prep.raw;
+USE workspace.prep;</code></pre>
+
+  <h2>Lab 1 · Delta Lake (dias 24–25 nov)</h2>
+<pre><code>CREATE OR REPLACE TABLE sales (id INT, amount DOUBLE, region STRING);
+INSERT INTO sales VALUES (1, 10, 'EU'), (2, 20, 'US');
+INSERT OVERWRITE sales VALUES (1, 15, 'EU');           -- substitui
+DESCRIBE HISTORY sales;                                  -- vê as versões
+SELECT * FROM sales VERSION AS OF 1;                     -- time travel
+RESTORE TABLE sales TO VERSION AS OF 1;
+ALTER TABLE sales CLUSTER BY (region);                   -- liquid clustering
+OPTIMIZE sales;
+DESCRIBE DETAIL sales;                                   -- numFiles, clusteringColumns</code></pre>
+  <p><b>Desafio:</b> tenta <code>INSERT OVERWRITE</code> com uma coluna a mais. Falha? E com <code>CREATE OR REPLACE TABLE ... AS SELECT</code>? Vê o <code>DESCRIBE HISTORY</code> depois.</p>
+
+  <h2>Lab 2 · Ingestão (26–27 nov)</h2>
+<pre><code># Gera ficheiros JSON de teste no volume
+import json, random
+base = "/Volumes/workspace/prep/raw/orders"
+dbutils.fs.mkdirs(base)
+for i in range(3):
+    rows = [{"order_id": i*10+j, "amount": random.randint(-5, 100),
+             "customer": {"id": j, "city": "Lisbon"}} for j in range(10)]
+    dbutils.fs.put(f"{base}/batch_{i}.json", "\n".join(json.dumps(r) for r in rows), True)</code></pre>
+<pre><code>-- COPY INTO (corre 2 vezes: a 2.ª não carrega nada)
+CREATE TABLE IF NOT EXISTS orders_copy;
+COPY INTO orders_copy FROM '/Volumes/workspace/prep/raw/orders'
+FILEFORMAT = JSON COPY_OPTIONS ('mergeSchema' = 'true');
+SELECT customer.city, count(*) FROM orders_copy GROUP BY ALL;</code></pre>
+<pre><code># Auto Loader com availableNow
+(spark.readStream.format("cloudFiles")
+  .option("cloudFiles.format", "json")
+  .option("cloudFiles.schemaLocation", "/Volumes/workspace/prep/raw/_schema")
+  .load("/Volumes/workspace/prep/raw/orders")
+  .select("*", "_metadata.file_name")
+  .writeStream.option("checkpointLocation", "/Volumes/workspace/prep/raw/_chk")
+  .trigger(availableNow=True).toTable("workspace.prep.orders_al"))</code></pre>
+  <p><b>Desafio:</b> escreve um ficheiro novo com um campo <code>coupon</code>. Corre o stream outra vez. O que acontece com <code>addNewColumns</code>? E se mudares para <code>rescue</code> (novo checkpoint)?</p>
+
+  <h2>Lab 3 · PySpark e SQL (28 nov)</h2>
+<pre><code>from pyspark.sql import functions as F, Window
+a = spark.createDataFrame([(1,"Ana",None),(2,"Rui",["x","y"]),(3,"Eva",[])], "id INT, name STRING, tags ARRAY&lt;STRING&gt;")
+b = spark.createDataFrame([("Ana",1)], "name STRING, id INT")
+
+a.select("id","name").union(b).show()           # mistura colunas!
+a.select("id","name").unionByName(b).show()     # correto
+a.select("id", F.explode("tags")).show()        # perde ids 1 e 3
+a.select("id", F.explode_outer("tags")).show()  # mantém
+a.join(b, "id", "left_anti").show()             # sem correspondência
+a.fillna(0).show()                              # tags/name não mudam
+spark.sql("SELECT try_cast('abc' AS INT), element_at(split('a b',' '),1), split('a b',' ')[0]").show()</code></pre>
+
+  <h2>Lab 4 · Pipeline declarativa (29 nov)</h2>
+  <p>Cria uma ETL pipeline (Jobs &amp; Pipelines → ETL pipeline) com este ficheiro SQL:</p>
+<pre><code>CREATE OR REFRESH STREAMING TABLE orders_bronze
+AS SELECT * FROM STREAM read_files('/Volumes/workspace/prep/raw/orders', format => 'json');
+
+CREATE OR REFRESH STREAMING TABLE orders_silver (
+  CONSTRAINT positive EXPECT (amount &gt; 0) ON VIOLATION DROP ROW
+) AS SELECT order_id, amount, customer.city AS city FROM STREAM(orders_bronze);
+
+CREATE OR REFRESH MATERIALIZED VIEW sales_by_city
+AS SELECT city, sum(amount) AS total FROM orders_silver GROUP BY city;</code></pre>
+  <p><b>Desafio:</b> vê no event log quantas linhas foram descartadas. Muda para sem <code>ON VIOLATION</code> e compara.</p>
+
+  <h2>Lab 5 · Lakeflow Job (1 dez)</h2>
+  <ol class="tight">
+    <li>Cria um job com 3 tasks: <code>ingest</code> (notebook que faz <code>taskValues.set</code>), <code>transform</code> (depende de ingest) e <code>cleanup</code> com Run if = ALL_DONE.</li>
+    <li>Adiciona um job parameter <code>env=dev</code> e lê-o com <code>dbutils.widgets.get("env")</code>.</li>
+    <li>Põe um <code>raise Exception()</code> em <code>transform</code>, corre, vê o cleanup a correr na mesma, corrige e faz <b>Repair run</b>.</li>
+    <li>Experimenta um trigger File arrival no volume <code>raw</code>.</li>
+  </ol>
+
+  <h2>Lab 6 · Governança (2–3 dez)</h2>
+<pre><code>CREATE OR REPLACE FUNCTION mask_amount(a DOUBLE)
+RETURN CASE WHEN is_account_group_member('admins') THEN a ELSE -1 END;
+ALTER TABLE orders_copy ALTER COLUMN amount SET MASK mask_amount;
+SELECT * FROM orders_copy;              -- o que vês?
+ALTER TABLE orders_copy ALTER COLUMN amount DROP MASK;
+SHOW GRANTS ON SCHEMA workspace.prep;</code></pre>
+
+  <h2>Lab 7 · Bundle (4 dez)</h2>
+<pre><code># no teu portátil, com a Databricks CLI instalada
+databricks auth login --host https://&lt;o-teu-workspace&gt;
+databricks bundle init default-python
+cd my_project
+databricks bundle validate
+databricks bundle deploy -t dev
+databricks bundle run -t dev &lt;job_key&gt;
+databricks bundle destroy -t dev</code></pre>
+</section>
+
+<!-- ═════════════ MOCKS ═════════════ -->
+<section class="page" id="p-mocks">
+  <div id="mock-home">
+    <h1>Simulados</h1>
+    <p class="lead">187 perguntas para o Associate, todas com explicação: 135 do banco do site (Mock 1, 2 e 3, em inglês como no exame) e as 52 do Simulado Associate, em português e com a explicação de cada alternativa. As opções são baralhadas em cada tentativa. O Simulado Professional está na página <a href="#pro">Professional</a>.</p>
+    <h2>Exames completos</h2>
+    <table class="modes">
+      <tr><th>Simulado</th><th>Perguntas</th><th>Tempo</th><th>Quando</th><th></th></tr>
+      <tr><td><b>Mock 1</b><br><span class="muted">Banco do site, pesos do exame</span></td><td>45</td><td>90 min</td><td>5 dez</td><td><button class="btn small" data-start="mock1">Começar</button></td></tr>
+      <tr><td><b>Mock 2</b><br><span class="muted">Banco do site, perguntas diferentes</span></td><td>45</td><td>90 min</td><td>7 dez</td><td><button class="btn small" data-start="mock2">Começar</button></td></tr>
+      <tr><td><b>Mock 3</b><br><span class="muted">Cenários do Notion</span></td><td>45</td><td>90 min</td><td>8 dez</td><td><button class="btn small" data-start="mock3">Começar</button></td></tr>
+      <tr><td><b>Simulado Associate</b><br><span class="muted">45 sorteadas das 52</span></td><td>45</td><td>90 min</td><td>quando quiseres</td><td><button class="btn small" data-start="sa_exam">Começar</button></td></tr>
+      <tr><td><b>Sprint</b><br><span class="muted">Sorteio de todo o banco com os pesos do exame</span></td><td>45</td><td>75 min</td><td>8 e 9 dez</td><td><button class="btn small" data-start="sprint">Começar</button></td></tr>
+    </table>
+    <h2>Estudo, sem tempo</h2>
+    <div class="grid">
+      <div class="card"><h3>Simulado Associate</h3><p>As 52 perguntas, com a explicação de cada alternativa logo a seguir.</p><button class="btn ghost" data-start="sa_study">Começar</button></div>
+      <div class="card"><h3>Só as que falhei</h3><p id="wrong-count">Perguntas que erraste em tentativas anteriores.</p><button class="btn ghost" data-start="wrong">Começar</button></div>
+    </div>
+    <h3>Treino por secção</h3>
+    <p class="muted">Junta as perguntas do banco do site e do Simulado Associate.</p>
+    <div class="btns" id="sec-buttons"></div>
+    <h2>Histórico</h2>
+    <div id="history"></div>
+    <div class="callout">Nenhuma destas perguntas é do exame real. As do Simulado Associate usam alguns nomes antigos (Delta Live Tables, <code>@dlt</code>, Asset Bundles, Workflows, Delta Sharing), que o exame atual pode apresentar com os nomes novos. Treina também no <a href="https://www.certsafari.com/databricks/data-engineer-associate" target="_blank" rel="noopener">CertSafari</a>.</div>
+  </div>
+  <div id="mock-run" style="display:none"></div>
+</section>
+
+<!-- ═════════════ RECURSOS ═════════════ -->
+<section class="page" id="p-recursos">
+  <h1>Recursos e vídeos</h1>
+  <p class="lead">Vídeos, simuladores, guias e documentação oficial.</p>
+  <h2>Vídeos</h2>
+  <div class="res">
+    <a class="card" href="https://www.youtube.com/watch?v=0Hd5vYqin7w" target="_blank" rel="noopener"><div class="tag">YouTube</div><div class="t">Databricks Data Engineer Associate Certification Course – Pass the Exam!</div><div class="d">Curso completo em vídeo (freeCodeCamp). Opcional, se preferires ouvir. Confirma os nomes novos dos produtos.</div></a>
+    <a class="card" href="https://www.freecodecamp.org/news/prepare-for-the-databricks-data-engineer-associate-certification-exam-and-pass/" target="_blank" rel="noopener"><div class="tag">freeCodeCamp</div><div class="t">Página do curso em vídeo</div><div class="d">Apresentação do curso de 7,5 h de Andrew Brown.</div></a>
+  </div>
+  <h2>Treino</h2>
+  <div class="res">
+    <a class="card" href="https://www.certsafari.com/databricks/data-engineer-associate" target="_blank" rel="noopener"><div class="tag">Simulador</div><div class="t">CertSafari</div><div class="d">Treino por tópico ou modo exame (45 perguntas). Acaba com folga, como se fossem 55.</div></a>
+    <a class="card" href="#mocks"><div class="tag">Neste site</div><div class="t">Simulados</div><div class="d">Mock 1, 2 e 3, o Simulado Associate e treino por secção.</div></a>
+    <a class="card" href="https://www.itexams.com/exam/Certified-Data-Engineer-Associate/1" target="_blank" rel="noopener"><div class="tag">Flashcards · poucas grátis</div><div class="t">ITExams</div><div class="d">Cuidado: muitas perguntas são da versão anterior a maio 2026.</div></a>
+  </div>
+  <h2>Matéria</h2>
+  <div class="res">
+    <a class="card" href="https://www.databricks.com/sites/default/files/2026-10/Databricks-Certified-Data-Engineer-Associate-Exam-Guide-August-2026.pdf" target="_blank" rel="noopener"><div class="tag">Oficial</div><div class="t">Exam guide (agosto 2026)</div><div class="d">As 7 secções e todos os objetivos. Volta a confirmar duas semanas antes.</div></a>
+    <a class="card" href="https://hilarious-bath-01d.notion.site/Databricks-Certified-Data-Engineer-Associate-31741e81b4cb80a4800ac260d09bad64" target="_blank" rel="noopener"><div class="tag">Notion</div><div class="t">Databricks Certified Data Engineer Associate</div><div class="d">Uma página por tópico das 7 secções, com cenários de exame, key takeaways e gotchas. Revisto a 24 out 2026.</div></a>
+    <a class="card" href="https://hilarious-bath-01d.notion.site/Databricks-Certified-Data-Engineer-Professional-31741e81b4cb8013b251e9b5c07a78b5" target="_blank" rel="noopener"><div class="tag">Notion · Professional</div><div class="t">Databricks Certified Data Engineer Professional</div><div class="d">Mesmo autor, segue o exame de 9 out 2026 (9 secções). Resumo na página Professional deste site.</div></a>
+    <a class="card" href="https://docs.databricks.com/" target="_blank" rel="noopener"><div class="tag">Oficial</div><div class="t">docs.databricks.com</div><div class="d">A fonte para confirmar qualquer resposta duvidosa.</div></a>
+    <a class="card" href="https://www.databricks.com/learn/free-edition" target="_blank" rel="noopener"><div class="tag">Prática</div><div class="t">Databricks Free Edition</div><div class="d">Workspace grátis para os labs.</div></a>
+    <a class="card" href="https://partner-academy.databricks.com/" target="_blank" rel="noopener"><div class="tag">Curso</div><div class="t">Databricks Partner Academy</div><div class="d">Learning Plans (já concluídos) e o Certification Prep Course.</div></a>
+  </div>
+  <h2>Outros materiais (fora do site)</h2>
+  <table><tr><th>Material</th><th>O que é</th><th>Como usar</th></tr>
+    <tr><td>Complete Study Guide (26 p.)</td><td>Teoria pelas 7 secções</td><td>Base de estudo; o plano indica o capítulo de cada dia</td></tr>
+    <tr><td>Cheat Sheet (2 p.)</td><td>Resumo denso + nomes novos vs. antigos</td><td>Revisão rápida e véspera</td></tr>
+    <tr><td>Practice Exams</td><td>2 mocks de 45 com explicações</td><td>Complementam os mocks deste site</td></tr>
+    <tr><td>Simulado Associate (HTML, 52 perguntas)</td><td>Cenários em português com explicação por alternativa</td><td>Integrado em <a href="#mocks">Simulados</a></td></tr>
+    <tr><td>Simulado Professional (HTML, 80 perguntas, PT-BR)</td><td>Nível Professional</td><td>Integrado na página <a href="#pro">Professional</a></td></tr>
+  </table>
+  </section>
+
+<!-- ═════════════ PROFESSIONAL ═════════════ -->
+<section class="page" id="p-pro">
+  <h1>Data Engineer Professional</h1>
+  <p class="lead">Para depois do Associate, quando chegar o voucher. Esta estrutura vem do Notion do Professional, que segue a versão do exame publicada a 9 de outubro de 2026. Confirma o exam guide antes de marcar.</p>
+  <div class="grid">
+    <div class="stat"><div class="k">Perguntas</div><div class="v">60</div><div class="d">+ algumas não pontuadas</div></div>
+    <div class="stat"><div class="k">Tempo</div><div class="v">120 min</div><div class="d">2 min por pergunta</div></div>
+    <div class="stat"><div class="k">Idioma</div><div class="v">Inglês</div><div class="d">USD 200 + impostos</div></div>
+    <div class="stat"><div class="k">Experiência sugerida</div><div class="v">1 ano</div><div class="d">nas tarefas do exam guide</div></div>
+  </div>
+  <h2>Secções e pesos</h2>
+  <div class="card weights" id="pro-weights"></div>
+  <h2>Simulado Professional</h2>
+  <p class="muted">80 perguntas de nível Professional (em português do Brasil), com a explicação de cada alternativa. Algumas pedem duas respostas.</p>
+  <div id="pro-practice"></div>
+  <h2>Tópicos por secção</h2>
+  <p>Cada secção abre no Notion.</p>
+  <div id="pro-sections"></div>
+</section>
+
+<!-- ═════════════ DIA DO EXAME ═════════════ -->
+<section class="page" id="p-exame">
+  <h1>Dia do exame — checklist</h1>
+  <p class="lead">Exame online com vigilância (Webassessor / Kryterion). As caixas ficam guardadas neste browser.</p>
+  <h2>Antes</h2>
+  <ul class="check" data-key="pre">
+    <li><label><input type="checkbox">Confirmar que o exam guide oficial não mudou (≈ 27 nov)</label></li>
+    <li><label><input type="checkbox">Nome na conta Webassessor igual ao do documento de identificação</label></li>
+    <li><label><input type="checkbox">System Readiness Check no computador que vais usar (de preferência pessoal, não o do trabalho) até 6 dez</label></li>
+    <li><label><input type="checkbox">Secure Browser instalado (pode precisar de permissões de admin)</label></li>
+    <li><label><input type="checkbox">Nada de máquinas virtuais nem segundo ecrã</label></li>
+  </ul>
+  <h2>Sala</h2>
+  <ul class="check" data-key="room">
+    <li><label><input type="checkbox">Sala silenciosa, bem iluminada, sem mais ninguém</label></li>
+    <li><label><input type="checkbox">Só um computador, um monitor, um teclado, um rato; segundo ecrã desligado</label></li>
+    <li><label><input type="checkbox">Secretária vazia: sem papéis, livros, canetas; telemóvel fora da sala</label></li>
+    <li><label><input type="checkbox">Casa de banho, água e notificações tratadas antes de começar</label></li>
+  </ul>
+  <h2>Durante</h2>
+  <ul class="check" data-key="during">
+    <li><label><input type="checkbox">Entrar 15 minutos antes com o documento de identificação</label></li>
+    <li><label><input type="checkbox">Não ler as perguntas em voz alta (nem baixinho)</label></li>
+    <li><label><input type="checkbox">Não sair da cadeira até submeter: sair anula o exame</label></li>
+    <li><label><input type="checkbox">Marcar as duvidosas e voltar no fim; máx. 2 min por pergunta na 1.ª passagem</label></li>
+    <li><label><input type="checkbox">Ligação estável (perder vídeo pausa ou suspende o exame)</label></li>
+  </ul>
+</section>
+
+<footer>Site de estudo para a certificação Databricks Certified Data Engineer Associate (versão de maio 2026). Não afiliado à Databricks. As perguntas dos simulados não são perguntas do exame.</footer>
+</main>
+</div>
+<script src="assets/questions.js"></script>
+<script src="assets/questions_extra.js"></script>
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
